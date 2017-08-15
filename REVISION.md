@@ -1,7 +1,7 @@
 Revision history
 =================================
 
-v1.0.0* (2017-08-15)
+v1.0.0 (2017-08-15)
 ---------------------------------
 
-* First
+* First setup, copied from mos/cform and rewritten to the anax namespace.

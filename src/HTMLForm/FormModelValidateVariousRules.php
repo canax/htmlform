@@ -20,7 +20,6 @@ class FormModelValidateVariousRules extends FormModel
 
     /**
      * Constructor
-     *
      */
     public function __construct()
     {
@@ -50,7 +49,6 @@ class FormModelValidateVariousRules extends FormModel
 
     /**
      * Get active validation rules from $_POST.
-     *
      */
     public function getActiveRules()
     {
@@ -68,9 +66,9 @@ class FormModelValidateVariousRules extends FormModel
     }
 
 
+
     /**
      * Callback for submit-button.
-     *
      */
     public function callbackSubmit()
     {
