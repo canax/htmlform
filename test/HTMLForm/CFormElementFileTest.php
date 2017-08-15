@@ -1,26 +1,22 @@
 <?php
 
-namespace Mos\HTMLForm;
+namespace Anax\HTMLForm;
 
 /**
  * HTML Form elements.
- *
  */
-class CFormElementFileTest extends \PHPUnit_Framework_TestCase
+class FormElementFileTest extends \PHPUnit_Framework_TestCase
 {
 
     /**
      * Test
-     *
-     * @return void
-     *
      */
     public function testCreate()
     {
         $name = "name";
         $attr = [];
         
-        $elem = new \Mos\HTMLForm\CFormElementFile($name, $attr);
+        $elem = new FormElementFile($name, $attr);
 
         $res = $elem['name'];
         $exp = $name;
@@ -39,16 +35,13 @@ class CFormElementFileTest extends \PHPUnit_Framework_TestCase
 
     /**
      * Test
-     *
-     * @return void
-     *
      */
     public function testGetHTMLEmpty()
     {
         $name = "name";
         $attr = [];
         
-        $elem = new \Mos\HTMLForm\CFormElementFile($name, $attr);
+        $elem = new FormElementFile($name, $attr);
 
         $res = $elem->getHTML();
         $exp = <<<EOD

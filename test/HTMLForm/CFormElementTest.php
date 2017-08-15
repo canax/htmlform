@@ -1,29 +1,25 @@
 <?php
 
-namespace Mos\HTMLForm;
+namespace Anax\HTMLForm;
 
 /**
  * HTML Form elements.
- *
  */
-class CFormElementTest extends \PHPUnit_Framework_TestCase
+class FormElementTest extends \PHPUnit_Framework_TestCase
 {
 
     /**
      * Test
-     *
-     * @return void
-     *
      */
     public function testCreateElement()
     {
-        $el = new \Mos\HTMLForm\CFormElement('test');
+        $element = new FormElement('test');
 
-        $res = $el['name'];
+        $res = $element['name'];
         $exp = 'test';
         $this->assertEquals($res, $exp, "Created element name missmatch.");
 
-        $res = $el->characterEncoding;
+        $res = $element->characterEncoding;
         $exp = 'UTF-8';
         $this->assertEquals($res, $exp, "Character encoding missmatch.");
     }
@@ -33,35 +29,29 @@ class CFormElementTest extends \PHPUnit_Framework_TestCase
     /**
      * Test
      *
-     * @expectedException Exception
-     *
-     * @return void
-     *
+     * @expectedException \Anax\HTMLForm\Exception
      */
     public function testValidationRuleNotFound()
     {
-        $el = new \Mos\HTMLForm\CFormElement('test');
+        $element = new FormElement('test');
 
-        $el->validate(['no-such-rule']);
+        $element->validate(['no-such-rule']);
     }
 
 
 
     /**
      * Test
-     *
-     * @return void
-     *
      */
     public function testGetValue()
     {
-        $el = new \Mos\HTMLForm\CFormElement('test', ['value' => 42]);
+        $element = new FormElement('test', ['value' => 42]);
 
-        $res = $el['value'];
+        $res = $element['value'];
         $exp = 42;
         $this->assertEquals($res, $exp, "Form element value missmatch, array syntax.");
 
-        $res = $el->getValue();
+        $res = $element->getValue();
         $exp = 42;
         $this->assertEquals($res, $exp, "Form element value missmatch, method.");
     }
@@ -76,10 +66,10 @@ class CFormElementTest extends \PHPUnit_Framework_TestCase
      */
     public function testValidateEmail()
     {
-        $el = new \Mos\HTMLForm\CFormElement('test');
+        $element = new FormElement('test');
 
-        $el['value'] = 'mos@dbwebb.se';
-        $res = $el->validate(['email_adress']);
+        $element['value'] = 'mos@dbwebb.se';
+        $res = $element->validate(['email_adress']);
         $this->assertTrue($res, "Validation email fails.");
     }
 }

@@ -1,19 +1,15 @@
 <?php
 
-namespace Mos\HTMLForm;
+namespace Anax\HTMLForm;
 
 /**
  * HTML Form elements.
- *
  */
-class CFormElementSelectMultipleTest extends \PHPUnit_Framework_TestCase
+class FormElementSelectMultipleTest extends \PHPUnit_Framework_TestCase
 {
 
     /**
      * Test
-     *
-     * @return void
-     *
      */
     public function testCreate()
     {
@@ -22,7 +18,7 @@ class CFormElementSelectMultipleTest extends \PHPUnit_Framework_TestCase
             "options" => []
         ];
         
-        $elem = new \Mos\HTMLForm\CFormElementSelectMultiple($name, $attr);
+        $elem = new FormElementSelectMultiple($name, $attr);
 
         $res = $elem['name'];
         $exp = $name;
@@ -46,24 +42,20 @@ class CFormElementSelectMultipleTest extends \PHPUnit_Framework_TestCase
     /**
      * Test
      *
-     * @expectedException \Mos\HTMLForm\CFormException
-     *
+     * @expectedException \Anax\HTMLForm\Exception
      */
     public function testCreateException()
     {
         $name = "name";
         $attr = [];
         
-        $elem = new \Mos\HTMLForm\CFormElementSelectMultiple($name, $attr);
+        $elem = new FormElementSelectMultiple($name, $attr);
     }
 
 
 
     /**
      * Test
-     *
-     * @return void
-     *
      */
     public function testGetHTMLEmpty()
     {
@@ -72,7 +64,7 @@ class CFormElementSelectMultipleTest extends \PHPUnit_Framework_TestCase
             "options" => []
         ];
         
-        $elem = new \Mos\HTMLForm\CFormElementSelectMultiple($name, $attr);
+        $elem = new FormElementSelectMultiple($name, $attr);
 
         $res = $elem->getHTML();
         $exp = <<<EOD
@@ -93,9 +85,6 @@ EOD;
 
     /**
      * Test
-     *
-     * @return void
-     *
      */
     public function testGetHTML()
     {
@@ -107,7 +96,7 @@ EOD;
             ],
         ];
         
-        $elem = new \Mos\HTMLForm\CFormElementSelectMultiple($name, $attr);
+        $elem = new FormElementSelectMultiple($name, $attr);
 
         $res = $elem->getHTML();
         $exp = <<<EOD

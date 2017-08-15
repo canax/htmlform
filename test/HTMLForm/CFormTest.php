@@ -1,23 +1,19 @@
 <?php
 
-namespace Mos\HTMLForm;
+namespace Anax\HTMLForm;
 
 /**
  * HTML Form elements.
- *
  */
-class CFormTest extends \PHPUnit_Framework_TestCase
+class FormTest extends \PHPUnit_Framework_TestCase
 {
 
     /**
      * Test
-     *
-     * @return void
-     *
      */
     public function testCreate1()
     {
-        $form = new \Mos\HTMLForm\CForm();
+        $form = new Form();
         $form->create();
 
         $res = $form->getHTML();
@@ -45,7 +41,7 @@ EOD;
      */
     public function testCreate2()
     {
-        $form = new \Mos\HTMLForm\CForm();
+        $form = new Form();
         $form->create([
             "enctype" => "multipart/form-data"
         ]);

@@ -1,26 +1,22 @@
 <?php
 
-namespace Mos\HTMLForm;
+namespace Anax\HTMLForm;
 
 /**
  * HTML Form elements.
- *
  */
-class CFormElementSubmitTest extends \PHPUnit_Framework_TestCase
+class FormElementSubmitTest extends \PHPUnit_Framework_TestCase
 {
 
     /**
      * Test
-     *
-     * @return void
-     *
      */
     public function testCreate()
     {
         $name = "name";
         $attr = [];
         
-        $elem = new \Mos\HTMLForm\CFormElementSubmit($name, $attr);
+        $elem = new FormElementSubmit($name, $attr);
 
         $res = $elem['name'];
         $exp = $name;
@@ -39,16 +35,13 @@ class CFormElementSubmitTest extends \PHPUnit_Framework_TestCase
 
     /**
      * Test
-     *
-     * @return void
-     *
      */
     public function testGetHTMLEmpty()
     {
         $name = "name";
         $attr = [];
         
-        $elem = new \Mos\HTMLForm\CFormElementSubmit($name, $attr);
+        $elem = new FormElementSubmit($name, $attr);
 
         $res = $elem->getHTML();
         $exp = <<<EOD
@@ -63,9 +56,6 @@ EOD;
 
     /**
      * Test
-     *
-     * @return void
-     *
      */
     public function testGetHTMLFormNoValidate()
     {
@@ -74,7 +64,7 @@ EOD;
             "formnovalidate" => true
         ];
         
-        $elem = new \Mos\HTMLForm\CFormElementSubmit($name, $attr);
+        $elem = new FormElementSubmit($name, $attr);
 
         $res = $elem->getHTML();
         $exp = <<<EOD
