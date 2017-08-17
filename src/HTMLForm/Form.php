@@ -9,12 +9,15 @@ class Form implements \ArrayAccess
 {
 
     /**
-     * Properties
+     * @var array $form       settings for the form
+     * @var array $elements   all form elements
+     * @var array $output     messages to display together with the form
+     * @var array $sessionKey key values for the session
      */
-    public $form;     // array with settings for the form
-    public $elements; // array with all form elements
-    public $output;   // array with messages to display together with the form
-    public $session;  // array with key values for the session
+    public $form;
+    public $elements;
+    public $output;
+    public $sessionKey;
 
 
 
@@ -89,7 +92,7 @@ class Form implements \ArrayAccess
 
         // Setting keys used in the session
         $generalKey = "anax/htmlform-" . $this->form["id"] . "#";
-        $this->session = [
+        $this->sessionKey = [
             "save"      => $generalKey . "save",
             "output"    => $generalKey . "output",
             "failed"    => $generalKey . "failed",
@@ -156,7 +159,7 @@ class Form implements \ArrayAccess
      */
     public function addOutput($str)
     {
-        $key = $this->session["output"];
+        $key = $this->sessionKey["output"];
         if (isset($_SESSION[$key])) {
             $_SESSION[$key] .= " $str";
         } else {
@@ -477,7 +480,7 @@ EOD;
         $values = [];
 
         // Remember output messages in session
-        $output = $this->session["output"];
+        $output = $this->sessionKey["output"];
         if (isset($_SESSION[$output])) {
             $this->output = $_SESSION[$output];
             unset($_SESSION[$output]);
@@ -486,9 +489,9 @@ EOD;
         // Check if this was a post request
         if ($_SERVER["REQUEST_METHOD"] !== "POST") {
             // Its not posted, but check if values should be used from session
-            $failed   = $this->session["failed"];
-            $remember = $this->session["remember"];
-            $save     = $this->session["save"];
+            $failed   = $this->sessionKey["failed"];
+            $remember = $this->sessionKey["remember"];
+            $save     = $this->sessionKey["save"];
             
             if (isset($_SESSION[$failed])) {
 
@@ -527,8 +530,8 @@ EOD;
         }
 
         // This form was posted, process it
-        if (isset($_SESSION[$this->session["failed"]])) {
-            unset($_SESSION[$this->session["failed"]]);
+        if (isset($_SESSION[$this->sessionKey["failed"]])) {
+            unset($_SESSION[$this->sessionKey["failed"]]);
         }
         
         $validates = true;
@@ -646,18 +649,18 @@ EOD;
             || $callbackStatus === false
         ) {
 
-            $_SESSION[$this->session["failed"]] = $values;
+            $_SESSION[$this->sessionKey["failed"]] = $values;
 
         } elseif ($remember) {
 
             // Hmmm, why do I want to use this
-            $_SESSION[$this->session["remember"]] = $values;
+            $_SESSION[$this->sessionKey["remember"]] = $values;
         }
 
         if (isset($this->saveInSession) && $this->saveInSession) {
 
             // Remember all posted values
-            $_SESSION[$this->session["save"]] = $values;
+            $_SESSION[$this->sessionKey["save"]] = $values;
         }
 
         // Lets se what the return value should be
