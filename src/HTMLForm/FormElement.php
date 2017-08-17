@@ -20,7 +20,8 @@ class FormElement implements \ArrayAccess
      * Constructor creating a form element.
      *
      * @param string $name       of the element.
-     * @param array  $attributes to set to the element. Default is an empty array.
+     * @param array  $attributes to set to the element. Default is an empty
+     *                           array.
      */
     public function __construct($name, $attributes = [])
     {
@@ -29,12 +30,7 @@ class FormElement implements \ArrayAccess
         //$this['key'] = $name;
         //$this['name'] = isset($this['name']) ? $this['name'] : $name;
 
-        // Use character encoding from lydia if available, else use UTF-8 OBSOLETE, remove this.
-        if (is_callable('CLydia::Instance()')) {
-            $this->characterEncoding = CLydia::Instance()->config['character_encoding'];
-        } else {
-            $this->characterEncoding = 'UTF-8';
-        }
+        $this->characterEncoding = 'UTF-8';
     }
   
   
