@@ -482,7 +482,8 @@ EOD;
         }
 
         // Check if this was a post request
-        if ($_SERVER["REQUEST_METHOD"] !== "POST") {
+        $server = $this->di->get("request")->getServer();
+        if ($server["REQUEST_METHOD"] !== "POST") {
             // Its not posted, but check if values should be used from session
             $failed   = $this->sessionKey["failed"];
             $remember = $this->sessionKey["remember"];
