@@ -1,6 +1,13 @@
 Revision history
 =================================
 
+v1.1.0* (2017-08-17)
+---------------------------------
+
+* Integrating with Anax DI.
+* Rewriting FormModel, use Form instead of extend.
+
+
 v1.0.1 (2017-08-17)
 ---------------------------------
 

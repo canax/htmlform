@@ -22,19 +22,6 @@ class Form implements \ArrayAccess
 
 
     /**
-     * Constructor
-     *
-     * @param array $form     details for the form
-     * @param array $elements all the elements
-     */
-    public function __construct($form = [], $elements = [])
-    {
-        $this->create($form, $elements);
-    }
-
-
-
-    /**
      * Implementing ArrayAccess for this->elements
      */
     public function offsetSet($offset, $value)
