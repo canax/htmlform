@@ -2,11 +2,19 @@
 
 namespace Anax\HTMLForm;
 
+use \Anax\DI\InjectionAwareInterface;
+use \Anax\DI\InjectionAwareTrait;
+
 /**
  * A utility class to easy creating and handling of forms
  */
-class Form implements \ArrayAccess
+class Form implements
+    \ArrayAccess,
+    InjectionAwareInterface
 {
+    use InjectionAwareTrait;
+
+
 
     /**
      * @var array $form       settings for the form

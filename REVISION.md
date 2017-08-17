@@ -4,7 +4,10 @@ Revision history
 v1.1.0* (2017-08-17)
 ---------------------------------
 
-* Integrating with Anax DI.
+* Removing Form constructor, must call create explicit.
+* Integrating with Anax DI, depending on anax/di.
+* Depending on anax/session.
+* Depending on anax/request.
 * Rewriting FormModel, use Form instead of extend.
 
 
