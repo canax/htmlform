@@ -2,19 +2,25 @@
 
 namespace Anax\HTMLForm;
 
+use Anax\DI\DIInterface;
+
 /**
  * Example of FormModel implementation.
  */
 class FormModelCheckboxMultiple extends FormModel
 {
     /**
-     * Constructor
+     * Constructor injects with DI container.
+     *
+     * @param Anax\DI\DIInterface $di a service container
      */
-    public function __construct()
+    public function __construct(DIInterface $di)
     {
-        parent::__construct(
+        parent::__construct($di);
+        $this->form->create(
             [
                 "id" => __CLASS__,
+                "legend" => "Legend"
             ],
             [
                 "items" => [
@@ -26,10 +32,6 @@ class FormModelCheckboxMultiple extends FormModel
                     "type"      => "submit",
                     "callback"  => [$this, "callbackSubmit"],
                 ],
-                "submit-fail" => [
-                    "type"      => "submit",
-                    "callback"  => [$this, "callbackSubmitFail"],
-                ],
             ]
         );
     }
@@ -37,33 +39,26 @@ class FormModelCheckboxMultiple extends FormModel
 
 
     /**
-     * Callback for submit-button.
+     * Callback for submit-button which should return true if it could
+     * carry out its work and false if something failed.
+     *
+     * @return boolean true if okey, false if something went wrong.
      */
     public function callbackSubmit()
     {
-        $this->AddOutput("<p>#callbackSubmit()</p>");
-        
         // Get the selected items as an array
-        $items = $this->value("items");
-        $itemsAsString = implode(", ", $items);
-        $this->AddOutput("<p>Selected items are: '$itemsAsString'.");
+        $items = $this->form->value("items");
 
-        $this->AddOutput("<pre>" . print_r($_POST, 1) . "</pre>");
-        $this->AddOutput("<pre>" . print_r($this["items"], 1) . "</pre>");
-        $this->saveInSession = true;
-        
+        // Print output for sake of this example
+        $this->form->addOutput(
+            "<p>Selected items are: '"
+            . implode(", ", $items)
+            . "'."
+        );
+
+        // Remember values during resubmit, for sake of the example
+        $this->form->rememberValues();
+
         return true;
-    }
-
-
-
-    /**
-     * Callback for submit-button.
-     */
-    public function callbackSubmitFail()
-    {
-        $this->AddOutput("<p>#callbackSubmitFail()</p>");
-        $this->AddOutput("<p>Form was submitted but I failed to process/save/validate it</p>");
-        return false;
     }
 }

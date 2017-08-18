@@ -2,19 +2,25 @@
 
 namespace Anax\HTMLForm;
 
+use Anax\DI\DIInterface;
+
 /**
  * Example of FormModel implementation.
  */
 class FormModelSelectOptionMultiple extends FormModel
 {
     /**
-     * Constructor
+     * Constructor injects with DI container.
+     *
+     * @param Anax\DI\DIInterface $di a service container
      */
-    public function __construct()
+    public function __construct(DIInterface $di)
     {
-        parent::__construct(
+        parent::__construct($di);
+        $this->form->create(
             [
-                "legend" => "Legend",
+                "id" => __CLASS__,
+                "legend" => "Legend"
             ],
             [
                 "selectm" => [
@@ -44,19 +50,21 @@ class FormModelSelectOptionMultiple extends FormModel
 
 
     /**
-     * Callback for submit-button.
+     * Callback for submit-button which should return true if it could
+     * carry out its work and false if something failed.
+     *
+     * @return boolean true if okey, false if something went wrong.
      */
     public function callbackSubmit()
     {
-        $this->AddOutput("<p>#callbackSubmit()</p>");
+        $this->form->addOutput(
+            "Checked values are: "
+            . implode($this->form->value("selectm"), ", ")
+            . "</br>"
+        );
 
-        $items = $this->value("selectm");
-        $itemsAsString = implode(", ", $items);
-        $this->AddOutput("<p>Selected items are: '$itemsAsString'.");
-
-        $this->AddOutput("<pre>" . print_r($_POST, 1) . "</pre>");
-        $this->AddOutput("<pre>" . print_r($this["selectm"], 1) . "</pre>");
-        $this->saveInSession = true;
+        // Remember values during resubmit, for sake of the example
+        $this->form->rememberValues();
 
         return true;
     }

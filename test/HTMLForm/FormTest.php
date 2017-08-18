@@ -2,18 +2,29 @@
 
 namespace Anax\HTMLForm;
 
+use \Anax\DI\DIFactoryConfig;
+
 /**
  * HTML Form elements.
  */
 class FormTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * Setup
+     */
+    public function setUp()
+    {
+        $this->di = new DIFactoryConfig(__DIR__ . "/../../htdocs/incl/di.php");
+    }
+
+
 
     /**
      * Test
      */
     public function testCreate1()
     {
-        $form = new Form();
+        $form = new Form($this->di);
         $form->create();
 
         $res = $form->getHTML();
@@ -35,13 +46,10 @@ EOD;
 
     /**
      * Test
-     *
-     * @return void
-     *
      */
     public function testCreate2()
     {
-        $form = new Form();
+        $form = new Form($this->di);
         $form->create([
             "enctype" => "multipart/form-data"
         ]);
@@ -60,41 +68,4 @@ EOD;
 
         $this->assertEquals($res, $exp, "Form with enctype missmatch.");
     }
-
-
-
-    /**
-     * Test
-     *
-     * @return void
-     *
-     */
-/*    public function testCreate2()
-    {
-        $form = new \Mos\HTMLForm\CForm();
-
-        $form->create([], [
-            'test' => [
-                'type' => 'select',
-                'options' => [
-                    'default' => 'Select...',
-                    '01' => 'January',
-                ],
-            ],
-        ]);
-        
-        echo $form->getHTML();
-        $res = $form->getHTML();
-        $exp = <<<EOD
-\n<form method='post'>
-<fieldset>
-
-
-
-</fieldset>
-</form>\n
-EOD;
-
-        $this->assertEquals($res, $exp, "Empty form render missmatch.");
-    }*/
 }

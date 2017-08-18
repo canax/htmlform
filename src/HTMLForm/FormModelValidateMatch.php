@@ -2,18 +2,26 @@
 
 namespace Anax\HTMLForm;
 
+use Anax\DI\DIInterface;
+
 /**
  * Example of FormModel implementation.
  */
 class FormModelValidateMatch extends FormModel
 {
     /**
-     * Constructor
+     * Constructor injects with DI container.
+     *
+     * @param Anax\DI\DIInterface $di a service container
      */
-    public function __construct()
+    public function __construct(DIInterface $di)
     {
-        parent::__construct(
-            [],
+        parent::__construct($di);
+        $this->form->create(
+            [
+                "id" => __CLASS__,
+                "legend" => "Legend",
+            ],
             [
                 "pwd" => [
                     "type" =>"text",
@@ -40,17 +48,17 @@ class FormModelValidateMatch extends FormModel
 
 
     /**
-     * Callback for submit-button.
+     * Callback for submit-button which should return true if it could
+     * carry out its work and false if something failed.
+     *
+     * @return boolean true if okey, false if something went wrong.
      */
     public function callbackSubmit()
     {
-        $matches = $this->value("pwd") === $this->value("pwdAgain")
-            ? "YES"
-            : "NO";
+        $this->form->addOutput("Validation passes.");
 
-        $this->AddOutput("<p>#callbackSubmit()</p>");
-        $this->AddOutput("<p>Passwords matches: $matches</p>");
-        $this->saveInSession = true;
+        // Remember values during resubmit, for sake of the example
+        $this->form->rememberValues();
 
         return true;
     }

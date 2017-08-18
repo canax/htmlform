@@ -2,20 +2,29 @@
 
 namespace Anax\HTMLForm;
 
+use Anax\DI\DIInterface;
+
 /**
  * Example of FormModel implementation.
  */
 class FormModelCheckbox extends FormModel
 {
     /**
-     * Constructor
+     * Constructor injects with DI container.
+     *
+     * @param Anax\DI\DIInterface $di a service container
      */
-    public function __construct()
+    public function __construct(DIInterface $di)
     {
+        parent::__construct($di);
+
         $license = "You must accept the <a href=http://opensource.org/licenses/GPL-3.0>license agreement</a>.";
         
-        parent::__construct(
-            [],
+        $this->form->create(
+            [
+                "id" => __CLASS__,
+                "legend" => "Legend"
+            ],
             [
                 "accept_mail" => [
                     "type"      => "checkbox",
@@ -48,13 +57,26 @@ class FormModelCheckbox extends FormModel
 
 
     /**
-     * Callback for submit-button.
+     * Callback for submit-button which should return true if it could
+     * carry out its work and false if something failed.
+     *
+     * @return boolean true if okey, false if something went wrong.
      */
     public function callbackSubmit()
     {
-        $this->AddOutput("<p>#callbackSubmit()</p>");
-        $this->AddOutput("<pre>" . print_r($_POST, 1) . "</pre>");
-        $this->saveInSession = true;
+        $elements = ["accept_mail", "accept_phone", "accept_agreement"];
+        foreach ($elements as $name) {
+            $this->form->addOutput(
+                "$name is "
+                . ($this->form->checked($name)
+                    ? ""
+                    : "not ")
+                . "checked</br>"
+            );
+        }
+
+        // Remember values during resubmit, for sake of the example
+        $this->form->rememberValues();
 
         return true;
     }

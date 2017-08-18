@@ -2,18 +2,26 @@
 
 namespace Anax\HTMLForm;
 
+use Anax\DI\DIInterface;
+
 /**
  * Example of FormModel implementation.
  */
 class FormModelSelectOption extends FormModel
 {
     /**
-     * Constructor
+     * Constructor injects with DI container.
+     *
+     * @param Anax\DI\DIInterface $di a service container
      */
-    public function __construct()
+    public function __construct(DIInterface $di)
     {
-        parent::__construct(
-            [],
+        parent::__construct($di);
+        $this->form->create(
+            [
+                "id" => __CLASS__,
+                "legend" => "Legend"
+            ],
             [
                 "expmonth" => [
                     "type" => "select",
@@ -48,13 +56,21 @@ class FormModelSelectOption extends FormModel
 
 
     /**
-     * Callback for submit-button.
+     * Callback for submit-button which should return true if it could
+     * carry out its work and false if something failed.
+     *
+     * @return boolean true if okey, false if something went wrong.
      */
     public function callbackSubmit()
     {
-        $this->AddOutput("<p>#callbackSubmit()</p>");
-        $this->AddOutput("<p>Selected month is: " . $this->value("expmonth") . "</p>");
-        $this->saveInSession = true;
+        $this->form->addOutput(
+            "<p>Selected month is: "
+            . $this->form->value("expmonth")
+            . "</p>"
+        );
+
+        // Remember values during resubmit, for sake of the example
+        $this->form->rememberValues();
 
         return true;
     }

@@ -2,18 +2,24 @@
 
 namespace Anax\HTMLForm;
 
+use Anax\DI\DIInterface;
+
 /**
  * Example of FormModel implementation.
  */
 class FormModelElementsHTML401 extends FormModel
 {
     /**
-     * Constructor
+     * Constructor injects with DI container.
+     *
+     * @param Anax\DI\DIInterface $di a service container
      */
-    public function __construct()
+    public function __construct(DIInterface $di)
     {
-        parent::__construct(
+        parent::__construct($di);
+        $this->form->create(
             [
+                "id" => __CLASS__,
                 "legend" => "Legend",
             ],
             [
@@ -113,13 +119,54 @@ class FormModelElementsHTML401 extends FormModel
 
 
     /**
-     * Callback for submit-button.
+     * Callback for submit-button which should return true if it could
+     * carry out its work and false if something failed.
+     *
+     * @return boolean true if okey, false if something went wrong.
      */
     public function callbackSubmit()
     {
-        $this->AddOutput("<p>#callbackSubmit()</p>");
-        $this->AddOutput("<pre>" . print_r($_POST, 1) . "</pre>");
-        $this->saveInSession = true;
+        // These return a single value
+        $elements = [
+            "text", "password", "hidden", "file", "textarea", "select",
+            "radio",
+        ];
+        foreach ($elements as $name) {
+            $this->form->addOutput(
+                "$name has value: "
+                . $this->form->value($name)
+                . "</br>"
+            );
+        }
+
+        // Checkbox needs to be checked for its status
+        $elements = [
+            "checkbox",
+        ];
+        foreach ($elements as $name) {
+            $this->form->addOutput(
+                "$name is "
+                . ($this->form->checked($name)
+                    ? ""
+                    : "not ")
+                . "checked</br>"
+            );
+        }
+
+        // Select multiple returns an array
+        $elements = [
+            "selectm",
+        ];
+        foreach ($elements as $name) {
+            $this->form->addOutput(
+                "$name has value: "
+                . implode($this->form->value($name), ", ")
+                . "</br>"
+            );
+        }
+
+        // Remember values during resubmit, for sake of the example
+        $this->form->rememberValues();
 
         return true;
     }

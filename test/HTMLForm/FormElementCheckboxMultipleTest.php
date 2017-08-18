@@ -7,7 +7,6 @@ namespace Anax\HTMLForm;
  */
 class FormElementCheckboxMultipleTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * Test
      */

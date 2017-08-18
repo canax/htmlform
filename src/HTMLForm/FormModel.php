@@ -2,49 +2,83 @@
 
 namespace Anax\HTMLForm;
 
+use Anax\DI\DIInterface;
+
 /**
  * Base class for form model classes.
  */
-abstract class FormModel extends Form
+abstract class FormModel
 {
+    /**
+     * @var Anax\DI\DIInterface $di   the DI/service container.
+     * @var class               $form the main form class.
+     */
+    protected $di;
+    protected $form;
+
+
+
+    /**
+     * Constructor injects with DI container.
+     *
+     * @param Anax\DI\DIInterface $di a service container
+     */
+    public function __construct(DIInterface $di)
+    {
+        $this->di = $di;
+        $this->form = new Form($di);
+    }
+
+
+
     /**
      * Customise the check() method to use own methods.
      *
-     * @param callable $callIfSuccess handler to call if function returns true.
-     * @param callable $callIfFail    handler to call if function returns true.
+     * @return boolean|null $callbackStatus if submitted&validates, false if
+     *                                      not validate, null if not submitted.
+     *                                      If submitted the callback function
+     *                                      will return the actual value which
+     *                                      should be true or false.
      */
-    public function check($callIfSuccess = null, $callIfFail = null)
+    public function check()
     {
-        return parent::check([$this, "callbackSuccess"], [$this, "callbackFail"]);
+        return $this->form->check(
+            [$this, "callbackSuccess"],
+            [$this, "callbackFail"]
+        );
     }
 
 
 
     /**
-     * Callback What to do if the form was submitted successfully?
+     * Return HTML for the form.
      *
-     * @SuppressWarnings(PHPMD.ExitExpression)
+     * @param array $options with options affecting the form output.
+     *
+     * @return string with HTML for the form.
+     */
+    public function getHTML($options = [])
+    {
+        return $this->form->getHTML($options);
+    }
+
+
+
+    /**
+     * Callback what to do if the form was submitted successfully?
      */
     public function callbackSuccess()
     {
-        $this->AddOUtput("<p>#callbackSuccess()</p>");
-        $this->AddOUtput("<p>Form was submitted and the submit callback method returned true.</p>");
-        header("Location: " . $_SERVER['PHP_SELF']);
-        exit;
+        $this->di->get("response")->redirectSelf();
     }
 
 
 
     /**
-     * Callback What to do when submitted form could not be processed?
-     *
-     * @SuppressWarnings(PHPMD.ExitExpression)
+     * Callback what to do when submitted form could not be processed?
      */
     public function callbackFail()
     {
-        $this->AddOutput("<p>#callbackFailed()</p>");
-        $this->AddOutput("<p>Form was submitted and the Check() method returned false.</p>");
-        header("Location: " . $_SERVER['PHP_SELF']);
-        exit;
+        $this->di->get("response")->redirectSelf();
     }
 }

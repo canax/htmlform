@@ -164,7 +164,6 @@ class FormElement implements \ArrayAccess
     {
         $messages = null;
         if (isset($this['validation-messages'])) {
-            
             $message = null;
             foreach ($this['validation-messages'] as $val) {
                 $message .= "<li>{$val}</li>\n";
@@ -337,16 +336,13 @@ class FormElement implements \ArrayAccess
         
         // Create HTML for the element
         if (in_array($this['type'], ['submit', 'reset', 'button'])) {
- 
             // type=submit || reset || button
             return <<<EOD
 <span>
 <input id='$id'{$type}{$class}{$name}{$value}{$autofocus}{$readonly}{$novalidate}{$title} />
 </span>
 EOD;
- 
         } elseif ($this['type'] == 'search-widget') {
-
             // custom search-widget with type=search and type=submit
             $label = isset($this['label']) ? " value='{$this['label']}'" : null;
             $classSubmit = isset($this['class-submit']) ? " class='{$this['class-submit']}'" : null;
@@ -358,9 +354,7 @@ EOD;
 </p>
 <p class='cf-desc'>{$description}</p>
 EOD;
-
         } elseif ($this['type'] == 'textarea') {
-
             // textarea
             return <<<EOD
 <p>
@@ -369,14 +363,10 @@ EOD;
 </p>
 <p class='cf-desc'>{$description}</p>
 EOD;
-
         } elseif ($this['type'] == 'hidden') {
-            
             // type=hidden
             return "<input id='$id'{$type}{$class}{$name}{$value} />\n";
-        
         } elseif ($this['type'] == 'checkbox') {
-
             // checkbox
             return <<<EOD
 <p>
@@ -386,9 +376,7 @@ EOD;
 </p>
 <p class='cf-desc'>{$description}</p>
 EOD;
-
         } elseif ($this['type'] == 'radio') {
-
             // radio
             $ret = null;
             foreach ($this['values'] as $val) {
@@ -413,9 +401,7 @@ EOD;
 <p class='cf-desc'>{$description}</p>
 </div>
 EOD;
-
         } elseif ($this['type'] == 'file-multiple') {
-
             // file-multiple
             // @codingStandardsIgnoreStart
             return <<<EOD
@@ -428,9 +414,7 @@ EOD;
 <p class='cf-desc'>{$description}</p>
 EOD;
             // @codingStandardsIgnoreEnd
-
         } else {
-
             // Everything else
             // @codingStandardsIgnoreStart
             return <<<EOD
@@ -443,7 +427,6 @@ EOD;
 <p class='cf-desc'>{$description}</p>
 EOD;
             // @codingStandardsIgnoreEnd
-
         }
     }
 
@@ -514,7 +497,6 @@ EOD;
         $checked = $this['checked'];
 
         foreach ($rules as $key => $val) {
-
             $rule = is_numeric($key) ? $val : $key;
             if (!isset($tests[$rule])) {
                 throw new Exception("Validation of form element failed, no such validation rule exists: $rule");
@@ -593,6 +575,18 @@ EOD;
     public function value()
     {
         return $this['value'];
+    }
+
+
+
+    /**
+     * Get the status of the form element if it is checked or not.
+     *
+     * @return mixed the value of the form element.
+     */
+    public function checked()
+    {
+        return $this['checked'];
     }
 
 

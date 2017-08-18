@@ -2,19 +2,25 @@
 
 namespace Anax\HTMLForm;
 
+use Anax\DI\DIInterface;
+
 /**
  * Example of FormModel implementation.
  */
 class FormModelSearchWidget extends FormModel
 {
     /**
-     * Constructor
+     * Constructor injects with DI container.
+     *
+     * @param Anax\DI\DIInterface $di a service container
      */
-    public function __construct()
+    public function __construct(DIInterface $di)
     {
-        parent::__construct(
+        parent::__construct($di);
+        $this->form->create(
             [
                 "id" => __CLASS__,
+                "legend" => "Legend"
             ],
             [
                 "search" => [
@@ -31,12 +37,22 @@ class FormModelSearchWidget extends FormModel
 
 
     /**
-     * Callback for submit-button.
+     * Callback for submit-button which should return true if it could
+     * carry out its work and false if something failed.
+     *
+     * @return boolean true if okey, false if something went wrong.
      */
     public function callbackSubmit()
     {
-        $this->AddOutput("<p>You searched for '" . $this->value("search") . "'.</p>");
-        $this->saveInSession = true;
+        $this->form->addOutput(
+            "Searchstring is: "
+            . $this->form->value("search")
+            . "</br>"
+        );
+
+        // Remember values during resubmit, for sake of the example
+        $this->form->rememberValues();
+
         return true;
     }
 }
