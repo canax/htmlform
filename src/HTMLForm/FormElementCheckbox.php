@@ -30,4 +30,38 @@ class FormElementCheckbox extends FormElement
             
         $this->UseNameAsDefaultLabel(null);
     }
+
+
+
+    /**
+     * Get the value of the form element.
+     *
+     * @return array the checked values of the form element.
+     */
+    public function value()
+    {
+        return $this['checked'];
+    }
+
+
+
+    /**
+     * Get HTML code for a element.
+     *
+     * @return string HTML code for the element.
+     */
+    public function getHTML()
+    {
+        $details = $this->getHTMLDetails();
+        extract($details);
+
+        return <<<EOD
+<p>
+<input id='$id'{$type}{$class}{$name}{$value}{$autofocus}{$required}{$readonly}{$checked}{$title} />
+<label for='$id'>$label</label>
+{$messages}
+</p>
+<p class='cf-desc'>{$description}</p>
+EOD;
+    }
 }

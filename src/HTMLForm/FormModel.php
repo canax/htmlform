@@ -65,7 +65,9 @@ abstract class FormModel
 
 
     /**
-     * Callback what to do if the form was submitted successfully?
+     * Callback what to do if the form was successfully submitted, this
+     * happen when the submit callback method returns true. This method
+     * can/should be implemented by the subclass for a different behaviour.
      */
     public function callbackSuccess()
     {
@@ -75,7 +77,10 @@ abstract class FormModel
 
 
     /**
-     * Callback what to do when submitted form could not be processed?
+     * Callback what to do if the form was unsuccessfully submitted, this
+     * happen when the submit callback method returns false or if validation
+     * fails. This method can/should be implemented by the subclass for a
+     * different behaviour.
      */
     public function callbackFail()
     {

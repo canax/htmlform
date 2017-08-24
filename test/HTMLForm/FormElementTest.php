@@ -69,7 +69,7 @@ class FormElementTest extends \PHPUnit_Framework_TestCase
         $element = new FormElement('test');
 
         $element['value'] = 'mos@dbwebb.se';
-        $res = $element->validate(['email_adress']);
+        $res = $element->validate(['email']);
         $this->assertTrue($res, "Validation email fails.");
     }
 }

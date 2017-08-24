@@ -327,6 +327,9 @@ class FormElement implements \ArrayAccess
     /**
      * Get HTML code for a element.
      *
+     * TODO Move HTML generation to each specific element and make this method
+     *      abstract.
+     *
      * @return HTML code for the element.
      */
     public function getHTML()
@@ -366,16 +369,6 @@ EOD;
         } elseif ($this['type'] == 'hidden') {
             // type=hidden
             return "<input id='$id'{$type}{$class}{$name}{$value} />\n";
-        } elseif ($this['type'] == 'checkbox') {
-            // checkbox
-            return <<<EOD
-<p>
-<input id='$id'{$type}{$class}{$name}{$value}{$autofocus}{$required}{$readonly}{$checked}{$title} />
-<label for='$id'>$label</label>
-{$messages}
-</p>
-<p class='cf-desc'>{$description}</p>
-EOD;
         } elseif ($this['type'] == 'radio') {
             // radio
             $ret = null;
@@ -464,12 +457,12 @@ EOD;
                 'test' => 'return $value != $arg;'
             ],
 
-            'numeric' => [
-                'message' => 'Must be numeric.',
+            'number' => [
+                'message' => 'Must be a number.',
                 'test' => 'return is_numeric($value);'
             ],
 
-            'email_adress' => [
+            'email' => [
                 'message' => 'Must be an email adress.',
                 'test' => function ($value) {
                     return preg_match('/\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b/i', $value) === 1;
@@ -587,17 +580,5 @@ EOD;
     public function checked()
     {
         return $this['checked'];
-    }
-
-
-
-    /**
-     * Get the value of the form element, if value is empty return null.
-     *
-     * @return mixed the value of the form element. Null if the value is empty.
-     */
-    public function getValueNullIfEmpty()
-    {
-        return empty($this['value']) ? null : $this['value'];
     }
 }

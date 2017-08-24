@@ -1,7 +1,7 @@
 Revision history
 =================================
 
-v1.0.2* (2017-08-17)
+v1.0.2 (2017-08-24)
 ---------------------------------
 
 * Removing Form constructor, must call create explicit.
@@ -13,6 +13,7 @@ v1.0.2* (2017-08-17)
 * Rewriting FormModel, use Form instead of extend.
 * Update all example programs for FormModel.
 * New setup of class FormModel, use Form, not extend.
+* New example programs for validate.
 
 
 v1.0.1 (2017-08-17)

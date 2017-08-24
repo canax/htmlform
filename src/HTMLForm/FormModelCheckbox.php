@@ -68,7 +68,7 @@ class FormModelCheckbox extends FormModel
         foreach ($elements as $name) {
             $this->form->addOutput(
                 "$name is "
-                . ($this->form->checked($name)
+                . ($this->form->value($name)
                     ? ""
                     : "not ")
                 . "checked</br>"
