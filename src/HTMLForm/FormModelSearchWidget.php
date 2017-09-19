@@ -20,7 +20,8 @@ class FormModelSearchWidget extends FormModel
         $this->form->create(
             [
                 "id" => __CLASS__,
-                "legend" => "Legend"
+                "legend" => "Legend",
+                //"wrapper-element" => "div",
             ],
             [
                 "search" => [

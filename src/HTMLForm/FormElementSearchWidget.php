@@ -7,7 +7,6 @@ namespace Anax\HTMLForm;
  */
 class FormElementSearchWidget extends FormElement
 {
-
     /**
      * Constructor
      *
@@ -18,5 +17,36 @@ class FormElementSearchWidget extends FormElement
     {
         parent::__construct($name, $attributes);
         $this['type'] = 'search-widget';
+    }
+
+
+
+    /**
+     * Get HTML code for a element.
+     *
+     * @return string HTML code for the element.
+     */
+    public function getHTML()
+    {
+        $details = $this->getHTMLDetails();
+        extract($details);
+
+        // custom search-widget with type=search and type=submit
+        $label = isset($this['label'])
+            ? " value='{$this['label']}'"
+            : null;
+        $classSubmit = isset($this['class-submit'])
+            ? " class='{$this['class-submit']}'"
+            : null;
+
+        // @codingStandardsIgnoreStart
+        return <<<EOD
+<{$wrapperElement}{$wrapperClass}>
+<input id='$id' type='search'{$class}{$name}{$value}{$autofocus}{$required}{$readonly}{$placeholder}/>
+<input id='do-{$id}' type='submit'{$classSubmit}{$label}{$readonly}{$title}/>
+</{$wrapperElement}>
+<p class='cf-desc'>{$description}</p>
+EOD;
+        // @codingStandardsIgnoreEnd
     }
 }
