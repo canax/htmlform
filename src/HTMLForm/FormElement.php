@@ -9,9 +9,12 @@ class FormElement implements \ArrayAccess
 {
 
     /**
-     * Properties
+     * @var array $attributes        settings to use to create element
+     * @var array $config            default settings to use to create element
+     * @var array $characterEncoding setting for character encoding
      */
     public $attributes;
+    public $config;
     public $characterEncoding;
 
 
@@ -31,9 +34,24 @@ class FormElement implements \ArrayAccess
         //$this['name'] = isset($this['name']) ? $this['name'] : $name;
 
         $this->characterEncoding = 'UTF-8';
+        $this->default["wrapper-element"] = "p";
     }
-  
-  
+
+
+
+    /**
+     * Set default values to use, merge incoming with existing.
+     *
+     * @param array  $options key value array with settings to use.
+     *
+     * @return void
+     */
+    public function setDefault($options)
+    {
+        $this->default = array_merge($this->default, $options);
+    }
+
+
 
     /**
      * Implementing ArrayAccess for this->attributes
@@ -184,7 +202,7 @@ class FormElement implements \ArrayAccess
     {
         // Add disabled to be able to disable a form element
         // Add maxlength
-        $id =  $this->GetElementId();
+        $id =  $this->getElementId();
 
         $class = isset($this['class'])
             ? "{$this['class']}"
@@ -197,7 +215,15 @@ class FormElement implements \ArrayAccess
         $class = (isset($class) || isset($validates))
             ? " class='{$class}{$validates}'"
             : null;
-            
+
+        $wrapperElement = isset($this['wrapper-element'])
+            ? $this['wrapper-element']
+            : $this->default["wrapper-element"];
+
+        $wrapperClass = isset($this['wrapper-class'])
+            ? " class=\"{$this['wrapper-class']}\""
+            : null;
+
         $name = " name='{$this['name']}'";
 
         $label = isset($this['label'])
@@ -293,32 +319,34 @@ class FormElement implements \ArrayAccess
         $messages = $this->getValidationMessages();
         
         return [
-            'id'            => $id,
-            'class'         => $class,
-            'name'          => $name,
-            'label'         => $label,
-            'autofocus'     => $autofocus,
-            'required'      => $required,
-            'readonly'      => $readonly,
-            'placeholder'   => $placeholder,
-            'multiple'      => $multiple,
-            'min'           => $min,
-            'max'           => $max,
-            'low'           => $low,
-            'high'          => $high,
-            'step'          => $step,
-            'optimum'       => $optimum,
-            'size'          => $size,
-            'text'          => $text,
-            'checked'       => $checked,
-            'type'          => $type,
-            'title'         => $title,
-            'pattern'       => $pattern,
-            'description'   => $description,
-            'novalidate'    => $novalidate,
-            'onlyValue'     => $onlyValue,
-            'value'         => $value,
-            'messages'      => $messages,
+            'id'             => $id,
+            'class'          => $class,
+            'wrapperElement' => $wrapperElement,
+            'wrapperClass'   => $wrapperClass,
+            'name'           => $name,
+            'label'          => $label,
+            'autofocus'      => $autofocus,
+            'required'       => $required,
+            'readonly'       => $readonly,
+            'placeholder'    => $placeholder,
+            'multiple'       => $multiple,
+            'min'            => $min,
+            'max'            => $max,
+            'low'            => $low,
+            'high'           => $high,
+            'step'           => $step,
+            'optimum'        => $optimum,
+            'size'           => $size,
+            'text'           => $text,
+            'checked'        => $checked,
+            'type'           => $type,
+            'title'          => $title,
+            'pattern'        => $pattern,
+            'description'    => $description,
+            'novalidate'     => $novalidate,
+            'onlyValue'      => $onlyValue,
+            'value'          => $value,
+            'messages'       => $messages,
         ];
     }
 
@@ -338,26 +366,7 @@ class FormElement implements \ArrayAccess
         extract($details);
         
         // Create HTML for the element
-        if (in_array($this['type'], ['submit', 'reset', 'button'])) {
-            // type=submit || reset || button
-            return <<<EOD
-<span>
-<input id='$id'{$type}{$class}{$name}{$value}{$autofocus}{$readonly}{$novalidate}{$title} />
-</span>
-EOD;
-        } elseif ($this['type'] == 'search-widget') {
-            // custom search-widget with type=search and type=submit
-            $label = isset($this['label']) ? " value='{$this['label']}'" : null;
-            $classSubmit = isset($this['class-submit']) ? " class='{$this['class-submit']}'" : null;
-          
-            return <<<EOD
-<p>
-<input id='$id' type='search'{$class}{$name}{$value}{$autofocus}{$required}{$readonly}{$placeholder}/>
-<input id='do-{$id}' type='submit'{$classSubmit}{$label}{$readonly}{$title}/>
-</p>
-<p class='cf-desc'>{$description}</p>
-EOD;
-        } elseif ($this['type'] == 'textarea') {
+        if ($this['type'] == 'textarea') {
             // textarea
             return <<<EOD
 <p>
@@ -366,9 +375,6 @@ EOD;
 </p>
 <p class='cf-desc'>{$description}</p>
 EOD;
-        } elseif ($this['type'] == 'hidden') {
-            // type=hidden
-            return "<input id='$id'{$type}{$class}{$name}{$value} />\n";
         } elseif ($this['type'] == 'radio') {
             // radio
             $ret = null;
