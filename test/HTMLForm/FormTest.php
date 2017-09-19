@@ -29,7 +29,7 @@ class FormTest extends \PHPUnit_Framework_TestCase
 
         $res = $form->getHTML();
         $exp = <<<EOD
-\n<form id='anax/htmlform' method='post'>
+\n<form id='anax/htmlform' class='htmlform' method='post'>
 <input type="hidden" name="anax/htmlform-id" value="anax/htmlform" />
 <fieldset>
 
@@ -56,7 +56,7 @@ EOD;
 
         $res = $form->getHTML();
         $exp = <<<EOD
-\n<form id='anax/htmlform' method='post' enctype='multipart/form-data'>
+\n<form id='anax/htmlform' class='htmlform' method='post' enctype='multipart/form-data'>
 <input type="hidden" name="anax/htmlform-id" value="anax/htmlform" />
 <fieldset>
 
