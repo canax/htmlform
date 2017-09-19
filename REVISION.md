@@ -2,7 +2,7 @@ Revision history
 =================================
 
 
-v1.0.3* (2017-09-19)
+v1.0.3 (2017-09-19)
 ---------------------------------
 
 * Always have default class=htmlform on <form>.
@@ -15,7 +15,6 @@ v1.0.3* (2017-09-19)
 * Make FormElement abstract and create a FormElementFactory.
 * Add option to add JavaScript in onclick for buttons.
 * Make <br> after label configurable on create and on specific element.
-
 
 
 v1.0.2 (2017-08-24)
