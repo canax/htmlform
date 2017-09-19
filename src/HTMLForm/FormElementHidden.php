@@ -32,7 +32,7 @@ class FormElementHidden extends FormElement
         $details = $this->getHTMLDetails();
         extract($details);
         // @codingStandardsIgnoreStart
-        return "<input id='$id'{$type}{$class}{$name}{$value} />\"";
+        return "<input id='$id'{$type}{$class}{$name}{$value} />";
         // @codingStandardsIgnoreEnd
     }
 }

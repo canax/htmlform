@@ -5,7 +5,7 @@ namespace Anax\HTMLForm;
 /**
  * Ordinary input form element
  */
-class FormElementText extends FormElement
+class FormElementText extends FormElementInput
 {
     
     /**
