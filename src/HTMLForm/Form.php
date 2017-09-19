@@ -107,6 +107,7 @@ class Form implements \ArrayAccess
             }
         }
 
+        // Default values for <output>
         $this->output = [];
 
         // Setting keys used in the session
@@ -194,18 +195,47 @@ class Form implements \ArrayAccess
 
 
     /**
-     * Add output to display to the user what happened whith the form.
+     * Add output to display to the user for what happened whith the form and
+     * optionally add a CSS class attribute.
      *
-     * @param string $str the string to add as output.
+     * @param string $str   the string to add as output.
+     * @param string $class a class attribute to set.
      *
      * @return $this.
      */
-    public function addOutput($str)
+    public function addOutput($str, $class = null)
     {
         $key     = $this->sessionKey["output"];
         $session = $this->di->get("session");
         $output  = $session->get($key);
-        $output  = $output ? "$output $str" : $str;
+
+        $output["message"] = isset($output["message"])
+            ? $output["message"] . " $str"
+            : $str;
+
+        if ($class) {
+            $output["class"] = $class;
+        }
+        $session->set($key, $output);
+
+        return $this;
+    }
+
+
+
+    /**
+     * Set a CSS class attribute for the <output> element.
+     *
+     * @param string $class a class attribute to set.
+     *
+     * @return $this.
+     */
+    public function setOutputClass($class)
+    {
+        $key     = $this->sessionKey["output"];
+        $session = $this->di->get("session");
+        $output  = $session->get($key);
+        $output["class"] = $class;
         $session->set($key, $output);
         return $this;
     }
@@ -461,8 +491,17 @@ EOD;
      */
     public function getOutput()
     {
-        return !empty($this->output)
-            ? "<output>{$this->output}</output>"
+        $output = $this->output;
+        $message = isset($output["message"]) && !empty($output["message"])
+            ? $output["message"]
+            : null;
+
+        $class = isset($output["class"]) && !empty($output["class"])
+            ? " class=\"{$output["class"]}\""
+            : null;
+
+        return $message
+            ? "<output{$class}>{$message}</output>"
             : null;
     }
 

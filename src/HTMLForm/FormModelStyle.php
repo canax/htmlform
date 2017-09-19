@@ -20,7 +20,7 @@ class FormModelStyle extends FormModel
         $this->form->create(
             [
                 "id" => __CLASS__,
-                "class" => "htmlform class1 class2",
+                //"class" => "htmlform class1 class2",
                 //"use_fieldset" => false,
                 "legend" => "Legend",
             ],
@@ -153,6 +153,9 @@ class FormModelStyle extends FormModel
                 . "</br>"
             );
         }
+
+        // Set <output> class
+        $this->form->setOutputClass("info");
 
         // Remember values during resubmit, useful when failing (retunr false)
         // and asking the user to resubmit the form.
