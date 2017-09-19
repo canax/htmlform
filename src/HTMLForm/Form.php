@@ -86,8 +86,8 @@ class Form implements \ArrayAccess
     public function create($form = [], $elements = [])
     {
         $defaults = [
-            // Always have a id for the form
             "id" => "anax/htmlform",
+            "class" => "htmlform",
         ];
         $this->form = array_merge($defaults, $form);
 
@@ -303,9 +303,9 @@ class Form implements \ArrayAccess
             $legend = "<legend>{$options['legend']}</legend>";
         }
 
-        $elementsArray  = $this->GetHTMLForElements($options);
-        $elements       = $this->GetHTMLLayoutForElements($elementsArray, $options);
-        $output         = $this->GetOutput();
+        $elementsArray  = $this->getHTMLForElements($options);
+        $elements       = $this->getHTMLLayoutForElements($elementsArray, $options);
+        $output         = $this->getOutput();
 
         $html = <<< EOD
 \n<form{$id}{$class}{$name}{$action}{$method}{$enctype}>
