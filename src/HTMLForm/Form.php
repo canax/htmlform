@@ -94,6 +94,9 @@ class Form implements \ArrayAccess
 
             // Wrap fields within <fieldset>
             'use_fieldset'  => true,
+
+            // Use legend for fieldset, set it to string value
+            'legend'        => null,
         ];
         $this->form = array_merge($defaults, $form);
 
@@ -274,11 +277,6 @@ class Form implements \ArrayAccess
             
             // Layout consequtive buttons as one element wrapped in <p>
             'use_buttonbar' => true,
-
-            // Use legend for fieldset
-            'legend'        => isset($this->form['legend']) ?
-                $this->form['legend']
-                : null,
         ];
         $options = array_merge($defaults, $options);
 

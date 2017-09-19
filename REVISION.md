@@ -7,6 +7,7 @@ v1.0.3* (2017-09-19)
 
 * Always have default class=htmlform on <form>.
 * Add test for styling forms.
+* Move use_fieldset to create(), can be overridden in getHTML()
 
 
 v1.0.2 (2017-08-24)
