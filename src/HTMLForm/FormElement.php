@@ -366,16 +366,7 @@ class FormElement implements \ArrayAccess
         extract($details);
         
         // Create HTML for the element
-        if ($this['type'] == 'textarea') {
-            // textarea
-            return <<<EOD
-<p>
-<label for='$id'>$label</label><br/>
-<textarea id='$id'{$class}{$name}{$autofocus}{$required}{$readonly}{$placeholder}{$title}>{$onlyValue}</textarea>
-</p>
-<p class='cf-desc'>{$description}</p>
-EOD;
-        } elseif ($this['type'] == 'radio') {
+        if ($this['type'] == 'radio') {
             // radio
             $ret = null;
             foreach ($this['values'] as $val) {
