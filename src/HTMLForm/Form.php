@@ -100,6 +100,9 @@ class Form implements \ArrayAccess
 
             // Default wrapper element around form elements
             "wrapper-element" => "p",
+
+            // Use a <br> after the label, where suitable
+            "br-after-label" => true,
         ];
         $this->form = array_merge($defaults, $form);
 
@@ -108,7 +111,8 @@ class Form implements \ArrayAccess
             foreach ($elements as $key => $element) {
                 $this->elements[$key] = FormElementFactory::create($key, $element);
                 $this->elements[$key]->setDefault([
-                    "wrapper-element" => $this->form["wrapper-element"]
+                    "wrapper-element" => $this->form["wrapper-element"],
+                    "br-after-label"  => $this->form["br-after-label"],
                 ]);
             }
         }

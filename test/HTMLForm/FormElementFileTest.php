@@ -46,8 +46,7 @@ class FormElementFileTest extends \PHPUnit_Framework_TestCase
         $res = $elem->getHTML();
         $exp = <<<EOD
 <p>
-<label for='form-element-name'>Name:</label>
-<br/>
+<label for='form-element-name'>Name:</label><br>
 <input id='form-element-name' type='file' name='name'/>
 
 </p>

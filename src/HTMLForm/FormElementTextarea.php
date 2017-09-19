@@ -38,7 +38,7 @@ class FormElementTextarea extends FormElement
 
         return <<<EOD
 <{$wrapperElement}{$wrapperClass}>
-<label for='$id'>$label</label><br/>
+<label for='$id'>$label</label>$brAfterLabel
 <textarea id='$id'{$class}{$name}{$autofocus}{$required}{$readonly}{$placeholder}{$title}>{$onlyValue}</textarea>
 </{$wrapperElement}>
 <p class='cf-desc'>{$description}</p>

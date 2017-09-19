@@ -21,8 +21,7 @@ class FormElementInput extends FormElement
 
         return <<<EOD
 <{$wrapperElement}{$wrapperClass}>
-<label for='$id'>$label</label>
-<br/>
+<label for='$id'>$label</label>$brAfterLabel
 <input id='$id'{$type}{$class}{$name}{$value}{$autofocus}{$required}{$readonly}{$placeholder}{$title}{$multiple}{$pattern}{$max}{$min}{$step}/>
 {$messages}
 </{$wrapperElement}>

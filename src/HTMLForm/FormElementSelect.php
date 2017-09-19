@@ -52,8 +52,7 @@ class FormElementSelect extends FormElement
 
         return <<<EOD
 <p>
-<label for='$id'>$label</label>
-<br/>
+<label for='$id'>$label</label>$brAfterLabel
 <select id='$id'{$class}{$name}{$autofocus}{$required}{$readonly}{$checked}{$title}>
 {$options}
 </select>

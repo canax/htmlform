@@ -13,6 +13,8 @@ v1.0.3* (2017-09-19)
 * Enable to set class attribute to the output element through Form::setOUtputClass().
 * Create FormElementInputButton and move createHTML there.
 * Make FormElement abstract and create a FormElementFactory.
+* Add option to add JavaScript in onclick for buttons.
+* Make <br> after label configurable on create and on specific element.
 
 
 

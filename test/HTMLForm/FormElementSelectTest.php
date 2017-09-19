@@ -68,8 +68,7 @@ class FormElementSelectTest extends \PHPUnit_Framework_TestCase
         $res = $elem->getHTML();
         $exp = <<<EOD
 <p>
-<label for='form-element-name'>Name:</label>
-<br/>
+<label for='form-element-name'>Name:</label><br>
 <select id='form-element-name' name='name'>
 
 </select>
@@ -99,8 +98,7 @@ EOD;
         $res = $elem->getHTML();
         $exp = <<<EOD
 <p>
-<label for='form-element-name'>Name:</label>
-<br/>
+<label for='form-element-name'>Name:</label><br>
 <select id='form-element-name' name='name'>
 <option value='default'>Select...</option>
 <option value='01'>January</option>

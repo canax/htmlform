@@ -59,8 +59,7 @@ class FormElementSelectMultiple extends FormElementSelect
 
         return <<<EOD
 <p>
-<label for='$id'>$label</label>
-<br/>
+<label for='$id'>$label</label>$brAfterLabel
 <select id='$id'{$size}{$class}{$name}{$autofocus}{$required}{$readonly}{$title} multiple>
 {$options}
 </select>

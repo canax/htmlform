@@ -23,7 +23,8 @@ class FormModelStyle extends FormModel
                 //"class" => "htmlform class1 class2",
                 //"use_fieldset" => false,
                 "legend" => "Legend",
-                "wrapper-element" => "div",
+                //"wrapper-element" => "div",
+                //"br-after-label" => true,
             ],
             [
                 "text" => [
@@ -31,8 +32,9 @@ class FormModelStyle extends FormModel
                     "description" => "Here you can place a description.",
                     "placeholder" => "Here is a placeholder",
                     //"wrapper-element" => "div",
-                    "wrapper-class"   => "wclass",
-                    "class"           => "specific",
+                    //"wrapper-class"   => "wclass",
+                    //"class"           => "specific",
+                    //"br-after-label" => false,
                 ],
                         
                 "password" => [
@@ -111,6 +113,7 @@ class FormModelStyle extends FormModel
 
                 "button" => [
                     "type"      => "button",
+                    "onclick"   => "alert('hej');"
                 ],
 
                 "submit" => [
