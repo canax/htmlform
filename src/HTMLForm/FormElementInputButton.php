@@ -21,7 +21,7 @@ class FormElementInputButton extends FormElement
 
         return <<<EOD
 <span>
-<input id='$id'{$type}{$class}{$name}{$value}{$autofocus}{$readonly}{$novalidate}{$title} />
+<input id='$id'{$type}{$class}{$name}{$value}{$autofocus}{$readonly}{$novalidate}{$title}{$onclick} />
 </span>
 EOD;
     }

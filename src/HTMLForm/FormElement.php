@@ -35,6 +35,7 @@ abstract class FormElement implements \ArrayAccess
 
         $this->characterEncoding = 'UTF-8';
         $this->default["wrapper-element"] = "p";
+        $this->default["br-after-label"] = true;
     }
 
 
@@ -66,7 +67,7 @@ abstract class FormElement implements \ArrayAccess
             $this->attributes[$offset] = $value;
         }
     }
-    
+
 
 
     /**
@@ -76,7 +77,7 @@ abstract class FormElement implements \ArrayAccess
     {
         return isset($this->attributes[$offset]);
     }
-    
+
 
 
     /**
@@ -86,7 +87,7 @@ abstract class FormElement implements \ArrayAccess
     {
         unset($this->attributes[$offset]);
     }
-    
+
 
 
     /**
@@ -149,7 +150,7 @@ abstract class FormElement implements \ArrayAccess
         $validates = (isset($this['validation-pass']) && $this['validation-pass'] === false)
             ? ' validation-failed'
             : null;
-            
+
         $class = (isset($class) || isset($validates))
             ? " class='{$class}{$validates}'"
             : null;
@@ -162,6 +163,14 @@ abstract class FormElement implements \ArrayAccess
             ? " class=\"{$this['wrapper-class']}\""
             : null;
 
+        $brAfterLabel = isset($this['br-after-label'])
+            ? $this['br-after-label']
+            : $this->default["br-after-label"];
+
+        $brAfterLabel = $brAfterLabel
+            ? "<br>"
+            : null;
+
         $name = " name='{$this['name']}'";
 
         $label = isset($this['label'])
@@ -169,75 +178,75 @@ abstract class FormElement implements \ArrayAccess
                 ? "<span class='form-element-required'>*</span>"
                 : null))
             : null;
-            
+
         $autofocus = isset($this['autofocus']) && $this['autofocus']
             ? " autofocus='autofocus'"
             : null;
-            
+
         $required = isset($this['required']) && $this['required']
             ? " required='required'"
             : null;
-            
+
         $readonly = isset($this['readonly']) && $this['readonly']
             ? " readonly='readonly'"
             : null;
-            
+
         $placeholder = isset($this['placeholder']) && $this['placeholder']
             ? " placeholder='{$this['placeholder']}'"
             : null;
-            
+
         $multiple = isset($this['multiple']) && $this['multiple']
             ? " multiple"
             : null;
-            
+
         $max = isset($this['max'])
             ? " max='{$this['max']}'"
             : null;
-            
+
         $min = isset($this['min'])
             ? " min='{$this['min']}'"
             : null;
-            
+
         $low = isset($this['low'])
             ? " low='{$this['low']}'"
             : null;
-            
+
         $high = isset($this['high'])
             ? " high='{$this['high']}'"
             : null;
-            
+
         $optimum = isset($this['optimum'])
             ? " optimum='{$this['optimum']}'"
             : null;
-            
+
         $step = isset($this['step'])
             ? " step='{$this['step']}'"
             : null;
-            
+
         $size = isset($this['size'])
             ? " size='{$this['size']}'"
             : null;
-            
+
         $text = isset($this['text'])
             ? htmlentities($this['text'], ENT_QUOTES, $this->characterEncoding)
             : null;
-            
+
         $checked = isset($this['checked']) && $this['checked']
             ? " checked='checked'"
             : null;
-            
+
         $type = isset($this['type'])
             ? " type='{$this['type']}'"
             : null;
-            
+
         $title = isset($this['title'])
             ? " title='{$this['title']}'"
             : null;
-            
+
         $pattern = isset($this['pattern'])
             ? " pattern='{$this['pattern']}'"
             : null;
-            
+
         $description = isset($this['description'])
             ? $this['description']
             : null;
@@ -249,18 +258,23 @@ abstract class FormElement implements \ArrayAccess
         $onlyValue = isset($this['value'])
             ? htmlentities($this['value'], ENT_QUOTES, $this->characterEncoding)
             : null;
-            
+
         $value = isset($this['value'])
             ? " value='{$onlyValue}'"
             : null;
 
+        $onclick = isset($this['onclick'])
+            ? " onclick=\"{$this['onclick']}\""
+            : null;
+
         $messages = $this->getValidationMessages();
-        
+
         return [
             'id'             => $id,
             'class'          => $class,
             'wrapperElement' => $wrapperElement,
             'wrapperClass'   => $wrapperClass,
+            'brAfterLabel'   => $brAfterLabel,
             'name'           => $name,
             'label'          => $label,
             'autofocus'      => $autofocus,
@@ -284,6 +298,7 @@ abstract class FormElement implements \ArrayAccess
             'novalidate'     => $novalidate,
             'onlyValue'      => $onlyValue,
             'value'          => $value,
+            'onclick'        => $onclick,
             'messages'       => $messages,
         ];
     }
@@ -347,7 +362,7 @@ abstract class FormElement implements \ArrayAccess
                 'message' => 'The field does not match.',
                 'test' => 'return $value == $form[$arg]["value"] ;'
             ],
-              
+
             'must_accept' => [
                 'message' => 'You must accept this.',
                 'test' => 'return $checked;'
