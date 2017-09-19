@@ -21,6 +21,7 @@ class FormModelStyle extends FormModel
             [
                 "id" => __CLASS__,
                 "class" => "htmlform class1 class2",
+                //"use_fieldset" => false,
                 "legend" => "Legend",
             ],
             [

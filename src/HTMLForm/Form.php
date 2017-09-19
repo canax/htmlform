@@ -86,8 +86,14 @@ class Form implements \ArrayAccess
     public function create($form = [], $elements = [])
     {
         $defaults = [
+            // Always have an id
             "id" => "anax/htmlform",
+
+            // Use a default class on <form> to ease styling
             "class" => "htmlform",
+
+            // Wrap fields within <fieldset>
+            'use_fieldset'  => true,
         ];
         $this->form = array_merge($defaults, $form);
 
@@ -269,9 +275,6 @@ class Form implements \ArrayAccess
             // Layout consequtive buttons as one element wrapped in <p>
             'use_buttonbar' => true,
 
-            // Wrap fields within <fieldset>
-            'use_fieldset'  => true,
-
             // Use legend for fieldset
             'legend'        => isset($this->form['legend']) ?
                 $this->form['legend']
@@ -295,11 +298,11 @@ class Form implements \ArrayAccess
         $fieldsetStart  = '<fieldset>';
         $legend         = null;
         $fieldsetEnd    = '</fieldset>';
-        if (!$options['use_fieldset']) {
+        if (!$form['use_fieldset']) {
             $fieldsetStart = $fieldsetEnd = null;
         }
 
-        if ($options['use_fieldset'] && $options['legend']) {
+        if ($form['use_fieldset'] && $options['legend']) {
             $legend = "<legend>{$options['legend']}</legend>";
         }
 
