@@ -93,17 +93,23 @@ class Form implements \ArrayAccess
             "class" => "htmlform",
 
             // Wrap fields within <fieldset>
-            'use_fieldset'  => true,
+            "use_fieldset"  => true,
 
             // Use legend for fieldset, set it to string value
-            'legend'        => null,
+            "legend"        => null,
+
+            // Default wrapper element around form elements
+            "wrapper-element" => "p",
         ];
         $this->form = array_merge($defaults, $form);
 
         $this->elements = [];
         if (!empty($elements)) {
             foreach ($elements as $key => $element) {
-                $this->elements[$key] = FormElement::Create($key, $element);
+                $this->elements[$key] = FormElementFactory::create($key, $element);
+                $this->elements[$key]->setDefault([
+                    "wrapper-element" => $this->form["wrapper-element"]
+                ]);
             }
         }
 

@@ -5,7 +5,7 @@ namespace Anax\HTMLForm;
 /**
  * HTML Form elements.
  */
-class FormElementTest extends \PHPUnit_Framework_TestCase
+class FormElementTestTest extends \PHPUnit_Framework_TestCase
 {
 
     /**
@@ -13,7 +13,7 @@ class FormElementTest extends \PHPUnit_Framework_TestCase
      */
     public function testCreateElement()
     {
-        $element = new FormElement('test');
+        $element = new FormElementTest('test');
 
         $res = $element['name'];
         $exp = 'test';
@@ -33,7 +33,7 @@ class FormElementTest extends \PHPUnit_Framework_TestCase
      */
     public function testValidationRuleNotFound()
     {
-        $element = new FormElement('test');
+        $element = new FormElementTest('test');
 
         $element->validate(['no-such-rule']);
     }
@@ -45,7 +45,7 @@ class FormElementTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetValue()
     {
-        $element = new FormElement('test', ['value' => 42]);
+        $element = new FormElementTest('test', ['value' => 42]);
 
         $res = $element['value'];
         $exp = 42;
@@ -66,7 +66,7 @@ class FormElementTest extends \PHPUnit_Framework_TestCase
      */
     public function testValidateEmail()
     {
-        $element = new FormElement('test');
+        $element = new FormElementTest('test');
 
         $element['value'] = 'mos@dbwebb.se';
         $res = $element->validate(['email']);

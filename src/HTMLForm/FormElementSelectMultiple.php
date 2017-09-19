@@ -7,7 +7,6 @@ namespace Anax\HTMLForm;
  */
 class FormElementSelectMultiple extends FormElementSelect
 {
-
     /**
      * Constructor
      *
@@ -39,6 +38,8 @@ class FormElementSelectMultiple extends FormElementSelect
      * Get HTML code for a element.
      *
      * @return string HTML code for the element.
+     *
+     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      */
     public function getHTML()
     {

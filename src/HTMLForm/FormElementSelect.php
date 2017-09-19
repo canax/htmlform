@@ -33,6 +33,8 @@ class FormElementSelect extends FormElement
      * Get HTML code for a element.
      *
      * @return string HTML code for the element.
+     *
+     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      */
     public function getHTML()
     {

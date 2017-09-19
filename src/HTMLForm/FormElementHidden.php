@@ -26,13 +26,13 @@ class FormElementHidden extends FormElement
      * Get HTML code for a element.
      *
      * @return string HTML code for the element.
+     *
+     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      */
     public function getHTML()
     {
         $details = $this->getHTMLDetails();
         extract($details);
-        // @codingStandardsIgnoreStart
         return "<input id='$id'{$type}{$class}{$name}{$value} />";
-        // @codingStandardsIgnoreEnd
     }
 }

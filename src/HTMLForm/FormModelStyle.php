@@ -23,12 +23,16 @@ class FormModelStyle extends FormModel
                 //"class" => "htmlform class1 class2",
                 //"use_fieldset" => false,
                 "legend" => "Legend",
+                "wrapper-element" => "div",
             ],
             [
                 "text" => [
                     "type"        => "text",
                     "description" => "Here you can place a description.",
                     "placeholder" => "Here is a placeholder",
+                    //"wrapper-element" => "div",
+                    "wrapper-class"   => "wclass",
+                    "class"           => "specific",
                 ],
                         
                 "password" => [

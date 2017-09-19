@@ -5,7 +5,7 @@ namespace Anax\HTMLForm;
 /**
  * A utility class to easy creating and handling of forms
  */
-class FormElement implements \ArrayAccess
+abstract class FormElement implements \ArrayAccess
 {
 
     /**
@@ -95,68 +95,6 @@ class FormElement implements \ArrayAccess
     public function offsetGet($offset)
     {
         return isset($this->attributes[$offset]) ? $this->attributes[$offset] : null;
-    }
-
-
-
-    /**
-     * Create a formelement from an array, factory returns the correct
-     * instance.
-     *
-     * @param string $name       name of the element.
-     * @param array  $attributes to use when creating the element.
-     *
-     * @return the instance of the form element.
-     */
-    public static function create($name, $attributes)
-    {
-        // Not supported is type=image, <button>, list, output, select-optgroup
-        $types = [
-
-            // Standard HTML 4.01
-            'text'              => '\Anax\HTMLForm\FormElementText',
-            'file'              => '\Anax\HTMLForm\FormElementFile',
-            'password'          => '\Anax\HTMLForm\FormElementPassword',
-            'hidden'            => '\Anax\HTMLForm\FormElementHidden',
-            'textarea'          => '\Anax\HTMLForm\FormElementTextarea',
-            'radio'             => '\Anax\HTMLForm\FormElementRadio',
-            'checkbox'          => '\Anax\HTMLForm\FormElementCheckbox',
-            'select'            => '\Anax\HTMLForm\FormElementSelect',
-            'select-multiple'   => '\Anax\HTMLForm\FormElementSelectMultiple',
-            'submit'            => '\Anax\HTMLForm\FormElementSubmit',
-            'reset'             => '\Anax\HTMLForm\FormElementReset',
-            'button'            => '\Anax\HTMLForm\FormElementButton',
-
-            // HTML5
-            'color'             => '\Anax\HTMLForm\FormElementColor',
-            'date'              => '\Anax\HTMLForm\FormElementDate',
-            'number'            => '\Anax\HTMLForm\FormElementNumber',
-            'range'             => '\Anax\HTMLForm\FormElementRange',
-            'tel'               => '\Anax\HTMLForm\FormElementTel',
-            'email'             => '\Anax\HTMLForm\FormElementEmail',
-            'url'               => '\Anax\HTMLForm\FormElementUrl',
-            'search'            => '\Anax\HTMLForm\FormElementSearch',
-            'file-multiple'     => '\Anax\HTMLForm\FormElementFileMultiple',
-            'datetime'          => '\Anax\HTMLForm\FormElementDatetime',
-            'datetime-local'    => '\Anax\HTMLForm\FormElementDatetimeLocal',
-            'month'             => '\Anax\HTMLForm\FormElementMonth',
-            'time'              => '\Anax\HTMLForm\FormElementTime',
-            'week'              => '\Anax\HTMLForm\FormElementWeek',
-
-            // Custom
-            'search-widget'     => '\Anax\HTMLForm\FormElementSearchWidget',
-            'checkbox-multiple' => '\Anax\HTMLForm\FormElementCheckboxMultiple',
-            // Address
-        ];
-
-        // $attributes['type'] must contain a valid type creating an object to succeed.
-        $type = isset($attributes['type']) ? $attributes['type'] : null;
-
-        if ($type && isset($types[$type])) {
-            return new $types[$type]($name, $attributes);
-        } else {
-            throw new Exception("Form element does not exists and can not be created: $name - $type");
-        }
     }
 
 
@@ -353,59 +291,11 @@ class FormElement implements \ArrayAccess
 
 
     /**
-     * Get HTML code for a element.
-     *
-     * TODO Move HTML generation to each specific element and make this method
-     *      abstract.
+     * Get HTML code for a element, must be implemented by each subclass.
      *
      * @return HTML code for the element.
      */
-    public function getHTML()
-    {
-        $details = $this->getHTMLDetails();
-        extract($details);
-        
-        // Create HTML for the element
-        if ($this['type'] == 'radio') {
-            // radio
-            $ret = null;
-            foreach ($this['values'] as $val) {
-                $id .= $val;
-                $item = $onlyValue  = htmlentities($val, ENT_QUOTES, $this->characterEncoding);
-                $value = " value='{$onlyValue}'";
-                $checked = isset($this['checked']) && $val === $this['checked']
-                    ? " checked='checked'"
-                    : null;
-                $ret .= <<<EOD
-<p>
-<input id='$id'{$type}{$class}{$name}{$value}{$autofocus}{$readonly}{$checked}{$title} />
-<label for='$id'>$item</label>
-{$messages}
-</p>
-EOD;
-            }
-            return <<<EOD
-<div>
-<p class='cf-label'>{$label}</p>
-{$ret}
-<p class='cf-desc'>{$description}</p>
-</div>
-EOD;
-        } else {
-            // Everything else
-            // @codingStandardsIgnoreStart
-            return <<<EOD
-<p>
-<label for='$id'>$label</label>
-<br/>
-<input id='$id'{$type}{$class}{$name}{$value}{$autofocus}{$required}{$readonly}{$placeholder}{$title}{$multiple}{$pattern}{$max}{$min}{$step}/>
-{$messages}
-</p>
-<p class='cf-desc'>{$description}</p>
-EOD;
-            // @codingStandardsIgnoreEnd
-        }
-    }
+    abstract public function getHTML();
 
 
 

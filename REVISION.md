@@ -11,6 +11,8 @@ v1.0.3* (2017-09-19)
 * Move legend to create(), can be overridden in getHTML().
 * Make Form properties protected, not public.
 * Enable to set class attribute to the output element through Form::setOUtputClass().
+* Create FormElementInputButton and move createHTML there.
+* Make FormElement abstract and create a FormElementFactory.
 
 
 

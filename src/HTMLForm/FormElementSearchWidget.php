@@ -25,13 +25,14 @@ class FormElementSearchWidget extends FormElement
      * Get HTML code for a element.
      *
      * @return string HTML code for the element.
+     *
+     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      */
     public function getHTML()
     {
         $details = $this->getHTMLDetails();
         extract($details);
 
-        // custom search-widget with type=search and type=submit
         $label = isset($this['label'])
             ? " value='{$this['label']}'"
             : null;
@@ -39,7 +40,6 @@ class FormElementSearchWidget extends FormElement
             ? " class='{$this['class-submit']}'"
             : null;
 
-        // @codingStandardsIgnoreStart
         return <<<EOD
 <{$wrapperElement}{$wrapperClass}>
 <input id='$id' type='search'{$class}{$name}{$value}{$autofocus}{$required}{$readonly}{$placeholder}/>
@@ -47,6 +47,5 @@ class FormElementSearchWidget extends FormElement
 </{$wrapperElement}>
 <p class='cf-desc'>{$description}</p>
 EOD;
-        // @codingStandardsIgnoreEnd
     }
 }

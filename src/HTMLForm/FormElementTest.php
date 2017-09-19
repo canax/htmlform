@@ -3,9 +3,9 @@
 namespace Anax\HTMLForm;
 
 /**
- * Form element
+ * Form element for test only
  */
-class FormElementFile extends FormElementInput
+class FormElementTest extends FormElement
 {
     /**
      * Constructor
@@ -17,7 +17,21 @@ class FormElementFile extends FormElementInput
     public function __construct($name, $attributes = [])
     {
         parent::__construct($name, $attributes);
-        $this['type'] = 'file';
+        $this['type'] = 'test';
         $this->UseNameAsDefaultLabel();
+    }
+
+
+
+    /**
+     * Get HTML code for a element.
+     *
+     * @return string HTML code for the element.
+     */
+    public function getHTML()
+    {
+        $details = $this->getHTMLDetails();
+        extract($details);
+        return "";
     }
 }
