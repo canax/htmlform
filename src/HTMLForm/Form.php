@@ -300,8 +300,8 @@ class Form implements \ArrayAccess
             $fieldsetStart = $fieldsetEnd = null;
         }
 
-        if ($form['use_fieldset'] && $options['legend']) {
-            $legend = "<legend>{$options['legend']}</legend>";
+        if ($form['use_fieldset'] && $form['legend']) {
+            $legend = "<legend>{$form['legend']}</legend>";
         }
 
         $elementsArray  = $this->getHTMLForElements($options);
