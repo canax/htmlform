@@ -1,6 +1,14 @@
 Revision history
 =================================
 
+
+v1.0.3* (2017-09-19)
+---------------------------------
+
+* Always have default class=htmlform on <form>.
+* Add test for styling forms.
+
+
 v1.0.2 (2017-08-24)
 ---------------------------------
 
