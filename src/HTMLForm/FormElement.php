@@ -400,19 +400,6 @@ EOD;
 <p class='cf-desc'>{$description}</p>
 </div>
 EOD;
-        } elseif ($this['type'] == 'file-multiple') {
-            // file-multiple
-            // @codingStandardsIgnoreStart
-            return <<<EOD
-<p>
-<label for='$id'>$label</label>
-<br/>
-<input id='$id' type='file' multiple{$class}{$name}{$value}{$autofocus}{$required}{$readonly}{$placeholder}{$title}{$multiple}{$pattern}{$max}{$min}{$step}/>
-{$messages}
-</p>
-<p class='cf-desc'>{$description}</p>
-EOD;
-            // @codingStandardsIgnoreEnd
         } else {
             // Everything else
             // @codingStandardsIgnoreStart

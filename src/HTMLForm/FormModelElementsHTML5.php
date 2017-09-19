@@ -20,7 +20,8 @@ class FormModelElementsHTML5 extends FormModel
         $this->form->create(
             [
                 "id" => __CLASS__,
-                "legend" => "Legend"
+                "legend" => "Legend",
+                //"wrapper-element" => "div",
             ],
             [
                 "color" => [
