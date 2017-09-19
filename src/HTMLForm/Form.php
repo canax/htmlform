@@ -15,15 +15,15 @@ class Form implements \ArrayAccess
      * @var array $output     messages to display together with the form
      * @var array $sessionKey key values for the session
      */
-    public $form;
-    public $elements;
-    public $output;
-    public $sessionKey;
+    protected $form;
+    protected $elements;
+    protected $output;
+    protected $sessionKey;
 
     /**
      * @var boolean $rememberValues remember values in the session.
      */
-    public $rememberValues;
+    protected $rememberValues;
 
     /**
      * @var Anax\DI\DIInterface $di the DI service container.

@@ -9,6 +9,7 @@ v1.0.3* (2017-09-19)
 * Add test for styling forms.
 * Move use_fieldset to create(), can be overridden in getHTML().
 * Move legend to create(), can be overridden in getHTML().
+* Make Form properties protected, not public.
 
 
 
