@@ -55,17 +55,17 @@ class Form implements \ArrayAccess
             $this->elements[$offset] = $value;
         }
     }
-    
+
     public function offsetExists($offset)
     {
         return isset($this->elements[$offset]);
     }
-    
+
     public function offsetUnset($offset)
     {
         unset($this->elements[$offset]);
     }
-    
+
     public function offsetGet($offset)
     {
         return isset($this->elements[$offset])
@@ -277,7 +277,7 @@ class Form implements \ArrayAccess
     public function value($name)
     {
         return isset($this->elements[$name])
-            ? $this->elements[$name]->value()
+            ? htmlentities($this->elements[$name]->value())
             : null;
     }
 
@@ -311,10 +311,10 @@ class Form implements \ArrayAccess
         $defaults = [
             // Only return the start of the form element
             'start'         => false,
-            
+
             // Layout all elements in one column
             'columns'       => 1,
-            
+
             // Layout consequtive buttons as one element wrapped in <p>
             'use_buttonbar' => true,
         ];
@@ -605,7 +605,7 @@ EOD;
             $failed   = $this->sessionKey["failed"];
             $remember = $this->sessionKey["remember"];
             $save     = $this->sessionKey["save"];
-            
+
             if ($session->has($failed)) {
                 // Read form data from session if the previous post failed
                 // during validation.
