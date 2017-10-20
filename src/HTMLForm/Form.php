@@ -103,6 +103,9 @@ class Form implements \ArrayAccess
 
             // Use a <br> after the label, where suitable
             "br-after-label" => true,
+
+            // Default is to always encode values
+            "escape-values" => true,
         ];
         $this->form = array_merge($defaults, $form);
 
@@ -113,6 +116,7 @@ class Form implements \ArrayAccess
                 $this->elements[$key]->setDefault([
                     "wrapper-element" => $this->form["wrapper-element"],
                     "br-after-label"  => $this->form["br-after-label"],
+                    "escape-values"   => $this->form["escape-values"],
                 ]);
             }
         }
@@ -268,7 +272,8 @@ class Form implements \ArrayAccess
 
 
     /**
-     * Get value of a form element
+     * Get value of a form element and respect settings of escaped or
+     * raw value.
      *
      * @param string $name the name of the formelement.
      *
@@ -277,7 +282,39 @@ class Form implements \ArrayAccess
     public function value($name)
     {
         return isset($this->elements[$name])
-            ? htmlentities($this->elements[$name]->value())
+            ? $this->elements[$name]->value()
+            : null;
+    }
+
+
+
+    /**
+     * Get escaped value of a form element.
+     *
+     * @param string $name the name of the formelement.
+     *
+     * @return mixed the value of the element.
+     */
+    public function escValue($name)
+    {
+        return isset($this->elements[$name])
+            ? $this->elements[$name]->getEscapedValue()
+            : null;
+    }
+
+
+
+    /**
+     * Get raw value of a form element.
+     *
+     * @param string $name the name of the formelement.
+     *
+     * @return mixed the value of the element.
+     */
+    public function rawValue($name)
+    {
+        return isset($this->elements[$name])
+            ? $this->elements[$name]->getRawValue()
             : null;
     }
 

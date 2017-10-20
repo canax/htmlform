@@ -36,6 +36,7 @@ abstract class FormElement implements \ArrayAccess
         $this->characterEncoding = 'UTF-8';
         $this->default["wrapper-element"] = "p";
         $this->default["br-after-label"] = true;
+        $this->default["escape-values"] = true;
     }
 
 
@@ -440,6 +441,8 @@ abstract class FormElement implements \ArrayAccess
     /**
      * Get the value of the form element.
      *
+     * @deprecated
+     *
      * @return mixed the value of the form element.
      */
     public function getValue()
@@ -450,13 +453,83 @@ abstract class FormElement implements \ArrayAccess
 
 
     /**
-     * Get the value of the form element.
+     * Get the escaped value of the form element.
+     *
+     * @return mixed the value of the form element.
+     */
+    public function getEscapedValue()
+    {
+        return htmlentities($this['value']);
+    }
+
+
+
+    /**
+     * Get the unescaped value of the form element.
+     *
+     * @return mixed the value of the form element.
+     */
+    public function getRawValue()
+    {
+        return $this['value'];
+    }
+
+
+
+    /**
+     * Get the value of the form element and respect configuration
+     * details whether it should be raw or escaped.
      *
      * @return mixed the value of the form element.
      */
     public function value()
     {
-        return $this['value'];
+        $escape = isset($this->default["escape-values"])
+            ? $this->default["escape-values"]
+            : true;
+
+        return $escape
+            ? $this->getEscapedValue()
+            : $this->getRawValue();
+    }
+
+
+
+    /**
+     * Get the escaped value of the form element and respect configuration
+     * details whether it should be raw or escaped.
+     *
+     * @return mixed the value of the form element.
+     */
+    public function escValue()
+    {
+        return $this->getEscapedValue();
+    }
+
+
+
+    /**
+     * Get the raw value of the form element.
+     *
+     * @return mixed the value of the form element.
+     */
+    public function rawValue()
+    {
+        return $this->getRawValue();
+    }
+
+
+
+    /**
+     * Set the value for the element.
+     *
+     * @param mixed $value set this to be the value of the formelement.
+     *
+     * @return mixed the value of the form element.
+     */
+    public function setValue($value)
+    {
+        return $this['value'] = $value;
     }
 
 
