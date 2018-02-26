@@ -145,6 +145,58 @@ tag-prepare:
 
 
 
+# ----------------------------------------------------------------------------
+#
+# docker
+#
+# target: docker-up               - Start all docker containers.
+.PHONY: docker-up
+docker-up:
+	@$(call HELPTEXT,$@)
+	[ ! -f docker-compose.yaml ] || docker-compose -f docker-compose.yaml up -d
+
+
+
+# target: docker-stop             - Stop running docker containers.
+.PHONY: docker-stop
+docker-stop:
+	@$(call HELPTEXT,$@)
+	[ ! -f docker-compose.yaml ] || docker-compose -f docker-compose.yaml stop
+
+
+
+# target: docker-run              - Run which="" container with what="" one off command.
+.PHONY: docker-run
+docker-run:
+	@$(call HELPTEXT,$@)
+	[ ! -f docker-compose.yaml ] || docker-compose -f docker-compose.yaml run $(which) $(what)
+
+
+
+# target: docker-bash             - Run which="" container with what="bash" one off command.
+.PHONY: docker-bash
+docker-bash:
+	@$(call HELPTEXT,$@)
+	[ ! -f docker-compose.yaml ] || docker-compose -f docker-compose.yaml run $(which) bash
+
+
+
+# target: docker-exec              - Run which="" container with what="" command in running container.
+.PHONY: docker-exec
+docker-exec:
+	@$(call HELPTEXT,$@)
+	[ ! -f docker-compose.yaml ] || docker-compose -f docker-compose.yaml exec $(which) $(what)
+
+
+
+# target: docker-test             - Run make test in which="" docker container.
+.PHONY: docker-test
+docker-test:
+	@$(call HELPTEXT,$@)
+	[ ! -f docker-compose.yaml ] || docker-compose -f docker-compose.yaml run $(which) make test
+
+
+
 # ------------------------------------------------------------------------
 #
 # PHP
@@ -168,6 +220,7 @@ install-tools-php:
 	curl -Lso $(BEHAT) https://github.com/Behat/Behat/releases/download/v3.3.0/behat.phar && chmod 755 $(BEHAT)
 
 	curl -Lso $(PHPUNIT) https://phar.phpunit.de/phpunit-5.7.9.phar && chmod 755 $(PHPUNIT)
+	#curl -Lso $(PHPUNIT) https://phar.phpunit.de/phpunit-7.phar && chmod 755 $(PHPUNIT)
 
 	[ ! -f composer.json ] || composer install
 

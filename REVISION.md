@@ -2,10 +2,11 @@ Revision history
 =================================
 
 
-v1.0.4* (2017-10-19)
+v1.0.4 (2018-02-26)
 ---------------------------------
 
-* Merge pr #7 to make value() use hemlentities with respect to xss.
+* Add docker support.
+* Merge pr #7 to make value() use htmlentities with respect to xss.
 
 
 
