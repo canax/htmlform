@@ -2,6 +2,16 @@ Revision history
 =================================
 
 
+v1.1.0 (2018-02-26)
+---------------------------------
+
+* Remove composer.json.
+* Add requirement >PHP7.1 incomposer.json.
+* Update testclasses to support PHPUnit namespace.
+* Travis to test only on >PHP7.1.
+* CircleCI upgrade to version 2 and PHP7.2.
+
+
 v1.0.4 (2018-02-26)
 ---------------------------------
 
