@@ -7,7 +7,7 @@ use \Anax\DI\DIFactoryConfig;
 /**
  * HTML Form elements.
  */
-class FormElementRawOrEscapedValueTest extends \PHPUnit_Framework_TestCase
+class FormElementRawOrEscapedValueTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Setup

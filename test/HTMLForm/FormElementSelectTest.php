@@ -5,7 +5,7 @@ namespace Anax\HTMLForm;
 /**
  * HTML Form elements.
  */
-class FormElementSelectTest extends \PHPUnit_Framework_TestCase
+class FormElementSelectTest extends \PHPUnit\Framework\TestCase
 {
 
     /**
