@@ -408,44 +408,40 @@ EOD;
      *
      * @return array with HTML for the formelements.
      */
-    public function getHTMLForElements($options = [])
-    {
-        $defaults = [
-            'use_buttonbar' => true,
-        ];
-        $options = array_merge($defaults, $options);
+     public function getHTMLForElements($options = [])
+     {
+         $defaults = [
+             'use_buttonbar' => true,
+         ];
+         $options = array_merge($defaults, $options);
 
-        $elements = array();
-        reset($this->elements);
-        while (list($key, $element) = each($this->elements)) {
-            if (in_array($element['type'], array('submit', 'reset', 'button'))
-                && $options['use_buttonbar']
-            ) {
-                // Create a buttonbar
-                $name = 'buttonbar';
-                $html = "<p class='buttonbar'>\n" . $element->GetHTML() . '&nbsp;';
+         $elements = array();
+         foreach ($this->elements as $element) {
+             // print_r($element);
+             if (in_array($element['type'], array('submit', 'reset', 'button'))
+                 && $options['use_buttonbar']) {
 
-                // Get all following submits (and buttons)
-                while (list($key, $element) = each($this->elements)) {
-                    if (in_array($element['type'], array('submit', 'reset', 'button'))) {
-                        $html .= $element->GetHTML();
-                    } else {
-                        prev($this->elements);
-                        break;
-                    }
-                }
-                $html .= "\n</p>";
-            } else {
-                // Just add the element
-                $name = $element['name'];
-                $html = $element->GetHTML();
-            }
+                 $name = 'buttonbar';
+                 $html = "<p class='buttonbar'>\n" . $element->GetHTML() . '&nbsp;';
 
-            $elements[] = array('name'=>$name, 'html'=> $html);
-        }
-
-        return $elements;
-    }
+                 foreach ($this->elements as $element) {
+                     if (in_array($element['type'], array('submit', 'reset', 'button'))) {
+                         $html .= $element->GetHTML();
+                     } else {
+                         prev($this->elements);
+                         break;
+                     }
+                 }
+                     $html .= "\n</p>";
+                 } else {
+                     // Just add the element
+                     $name = $element['name'];
+                     $html = $element->GetHTML();
+                 }
+                 $elements[] = array('name'=>$name, 'html'=> $html);
+             }
+             return $elements;
+         }
 
 
 
