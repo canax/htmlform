@@ -189,6 +189,14 @@ docker-exec:
 
 
 
+# target: docker-install          - Run make instakk in which="" docker container.
+.PHONY: docker-install
+docker-install:
+	@$(call HELPTEXT,$@)
+	[ ! -f docker-compose.yaml ] || docker-compose -f docker-compose.yaml run $(which) make install
+
+
+
 # target: docker-test             - Run make test in which="" docker container.
 .PHONY: docker-test
 docker-test:
