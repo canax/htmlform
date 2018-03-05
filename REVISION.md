@@ -2,16 +2,18 @@ Revision history
 =================================
 
 
-v1.1.0* (2018-02-26)
+v1.1.0 (2018-03-05)
 ---------------------------------
 
-* Remove composer.json.
+* Remove lockfile for composer.json.
 * Add requirement >PHP7.0 in composer.json.
 * Update testclasses to support PHPUnit namespace.
 * Travis to test only on >PHP7.0.
 * CircleCI upgrade to version 2 and PHP7.2 using own image.
 * Add PHP Warnings during phpunit.
 * Fix #8 deprecated each() in PHP7.2.
+* Makefile to install different versions of phpunit, depending on PHP-version.
+* Use Docker to test in different version of PHP.
 
 
 v1.0.4 (2018-02-26)

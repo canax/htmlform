@@ -22,7 +22,7 @@ services:
         image: anax/dev:php70
         volumes: [ ".:/home/anax/repo" ]
 
-    php70:
+    php70-apache:
         image: anax/dev:php70-apache
         ports: [ "10070:80" ]
         volumes: [ ".:/home/anax/repo" ]
@@ -31,7 +31,7 @@ services:
         image: anax/dev:php56
         volumes: [ ".:/home/anax/repo" ]
 
-    php56:
+    php56-apache:
         image: anax/dev:php56-apache
         ports: [ "10056:80" ]
         volumes: [ ".:/home/anax/repo" ]
