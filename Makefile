@@ -1,6 +1,11 @@
+#!/usr/bin/env make
+#
+# An Anax module.
+# See organisation on GitHub: https://github.com/canax
+
 # ------------------------------------------------------------------------
 #
-# General stuff
+# General stuff, reusable for all Makefiles.
 #
 
 # Detect OS
@@ -29,12 +34,33 @@ THIS_MAKEFILE := $(call WHERE-AM-I)
 # Echo some nice helptext based on the target comment
 HELPTEXT = $(ECHO) "$(ACTION)--->" `egrep "^\# target: $(1) " $(THIS_MAKEFILE) | sed "s/\# target: $(1)[ ]*-[ ]* / /g"` "$(NO_COLOR)"
 
+# Check version  and path to command and display on one line
+CHECK_VERSION = printf "%-15s %-10s %s\n" "`basename $(1)`" "`$(1) --version $(2)`" "`which $(1)`"
+
+# Print out colored action message
+ACTION_MESSAGE = $(ECHO) "$(ACTION)---> $(1)$(NO_COLOR)"
+
+
+
+# target: help                    - Displays help.
+.PHONY:  help
+help:
+	@$(call HELPTEXT,$@)
+	@sed '/^$$/q' $(THIS_MAKEFILE) | tail +3 | sed 's/#\s*//g'
+	@$(ECHO) "Usage:"
+	@$(ECHO) " make [target] ..."
+	@$(ECHO) "target:"
+	@egrep "^# target:" $(THIS_MAKEFILE) | sed 's/# target: / /g'
+
 
 
 # ------------------------------------------------------------------------
 #
-# Specifics
+# Specifics for this project.
 #
+# Default values for arguments
+container ?= latest
+
 BIN     := .bin
 PHPUNIT := $(BIN)/phpunit
 PHPLOC 	:= $(BIN)/phploc
@@ -48,18 +74,7 @@ BATS := $(BIN)/bats
 
 
 
-# target: help               - Displays help.
-.PHONY:  help
-help:
-	@$(call HELPTEXT,$@)
-	@$(ECHO) "Usage:"
-	@$(ECHO) " make [target] ..."
-	@$(ECHO) "target:"
-	@egrep "^# target:" $(THIS_MAKEFILE) | sed 's/# target: / /g'
-
-
-
-# target: prepare            - Prepare for tests and build
+# target: prepare                 - Prepare for tests and build
 .PHONY:  prepare
 prepare:
 	@$(call HELPTEXT,$@)
@@ -69,7 +84,7 @@ prepare:
 
 
 
-# target: clean              - Removes generated files and directories.
+# target: clean                   - Removes generated files and directories.
 .PHONY: clean
 clean:
 	@$(call HELPTEXT,$@)
@@ -77,7 +92,7 @@ clean:
 
 
 
-# target: clean-cache        - Clean the cache.
+# target: clean-cache             - Clean the cache.
 .PHONY:  clean-cache
 clean-cache:
 	@$(call HELPTEXT,$@)
@@ -85,7 +100,7 @@ clean-cache:
 
 
 
-# target: clean-all          - Removes generated files and directories.
+# target: clean-all               - Removes generated files and directories.
 .PHONY:  clean-all
 clean-all: clean clean-cache
 	@$(call HELPTEXT,$@)
@@ -93,14 +108,14 @@ clean-all: clean clean-cache
 
 
 
-# target: check              - Check version of installed tools.
+# target: check                   - Check version of installed tools.
 .PHONY:  check
 check: check-tools-bash check-tools-php
 	@$(call HELPTEXT,$@)
 
 
 
-# target: test               - Run all tests.
+# target: test                    - Run all tests.
 .PHONY:  test
 test: phpunit phpcs phpmd phploc behat shellcheck bats
 	@$(call HELPTEXT,$@)
@@ -108,28 +123,28 @@ test: phpunit phpcs phpmd phploc behat shellcheck bats
 
 
 
-# target: doc                - Generate documentation.
+# target: doc                     - Generate documentation.
 .PHONY:  doc
 doc: phpdoc
 	@$(call HELPTEXT,$@)
 
 
 
-# target: build              - Do all build
+# target: build                   - Do all build
 .PHONY:  build
 build: test doc #theme less-compile less-minify js-minify
 	@$(call HELPTEXT,$@)
 
 
 
-# target: install            - Install all tools
+# target: install                 - Install all tools
 .PHONY:  install
 install: prepare install-tools-php install-tools-bash
 	@$(call HELPTEXT,$@)
 
 
 
-# target: update             - Update the codebase and tools.
+# target: update                  - Update the codebase and tools.
 .PHONY:  update
 update:
 	@$(call HELPTEXT,$@)
@@ -138,7 +153,7 @@ update:
 
 
 
-# target: tag-prepare        - Prepare to tag new version.
+# target: tag-prepare             - Prepare to tag new version.
 .PHONY: tag-prepare
 tag-prepare:
 	@$(call HELPTEXT,$@)
@@ -149,6 +164,14 @@ tag-prepare:
 #
 # docker
 #
+# target: docker-start            - Start docker container="", default is "latest".
+.PHONY: docker-start
+docker-start:
+	@$(call HELPTEXT,$@)
+	[ ! -f docker-compose.yaml ] || docker-compose -f docker-compose.yaml up -d
+
+
+
 # target: docker-up               - Start all docker containers.
 .PHONY: docker-up
 docker-up:
@@ -165,43 +188,43 @@ docker-stop:
 
 
 
-# target: docker-run              - Run which="" container with what="" one off command.
+# target: docker-run              - Run container="" with what="" one off command.
 .PHONY: docker-run
 docker-run:
 	@$(call HELPTEXT,$@)
-	[ ! -f docker-compose.yaml ] || docker-compose -f docker-compose.yaml run $(which) $(what)
+	[ ! -f docker-compose.yaml ] || docker-compose -f docker-compose.yaml run $(container) $(what)
 
 
 
-# target: docker-bash             - Run which="" container with what="bash" one off command.
+# target: docker-bash             - Run container="" with what="bash" one off command.
 .PHONY: docker-bash
 docker-bash:
 	@$(call HELPTEXT,$@)
-	[ ! -f docker-compose.yaml ] || docker-compose -f docker-compose.yaml run $(which) bash
+	[ ! -f docker-compose.yaml ] || docker-compose -f docker-compose.yaml run $(container) bash
 
 
 
-# target: docker-exec              - Run which="" container with what="" command in running container.
+# target: docker-exec             - Run container="" with what="" command in running container.
 .PHONY: docker-exec
 docker-exec:
 	@$(call HELPTEXT,$@)
-	[ ! -f docker-compose.yaml ] || docker-compose -f docker-compose.yaml exec $(which) $(what)
+	[ ! -f docker-compose.yaml ] || docker-compose -f docker-compose.yaml exec $(container) $(what)
 
 
 
-# target: docker-install          - Run make instakk in which="" docker container.
+# target: docker-install          - Run make install in container="".
 .PHONY: docker-install
 docker-install:
 	@$(call HELPTEXT,$@)
-	[ ! -f docker-compose.yaml ] || docker-compose -f docker-compose.yaml run $(which) make install
+	[ ! -f docker-compose.yaml ] || docker-compose -f docker-compose.yaml run $(container) make install
 
 
 
-# target: docker-test             - Run make test in which="" docker container.
+# target: docker-test             - Run make test in container="".
 .PHONY: docker-test
 docker-test:
 	@$(call HELPTEXT,$@)
-	[ ! -f docker-compose.yaml ] || docker-compose -f docker-compose.yaml run $(which) make test
+	[ ! -f docker-compose.yaml ] || docker-compose -f docker-compose.yaml run $(container) make test
 
 
 
@@ -210,7 +233,7 @@ docker-test:
 # PHP
 #
 
-# target: install-tools-php  - Install PHP development tools.
+# target: install-tools-php       - Install PHP development tools.
 .PHONY: install-tools-php
 install-tools-php:
 	@$(call HELPTEXT,$@)
@@ -234,7 +257,7 @@ install-tools-php:
 
 
 
-# target: check-tools-php    - Check versions of PHP tools.
+# target: check-tools-php         - Check versions of PHP tools.
 .PHONY: check-tools-php
 check-tools-php:
 	@$(call HELPTEXT,$@)
@@ -249,7 +272,7 @@ check-tools-php:
 
 
 
-# target: phpunit            - Run unit tests for PHP.
+# target: phpunit                 - Run unit tests for PHP.
 .PHONY: phpunit
 phpunit: prepare
 	@$(call HELPTEXT,$@)
@@ -257,7 +280,7 @@ phpunit: prepare
 
 
 
-# target: phpcs              - Codestyle for PHP.
+# target: phpcs                   - Codestyle for PHP.
 .PHONY: phpcs
 phpcs: prepare
 	@$(call HELPTEXT,$@)
@@ -265,7 +288,7 @@ phpcs: prepare
 
 
 
-# target: phpcbf             - Fix codestyle for PHP.
+# target: phpcbf                  - Fix codestyle for PHP.
 .PHONY: phpcbf
 phpcbf:
 	@$(call HELPTEXT,$@)
@@ -277,7 +300,7 @@ endif
 
 
 
-# target: phpmd              - Mess detector for PHP.
+# target: phpmd                   - Mess detector for PHP.
 .PHONY: phpmd
 phpmd: prepare
 	@$(call HELPTEXT,$@)
@@ -285,7 +308,7 @@ phpmd: prepare
 
 
 
-# target: phploc             - Code statistics for PHP.
+# target: phploc                  - Code statistics for PHP.
 .PHONY: phploc
 phploc: prepare
 	@$(call HELPTEXT,$@)
@@ -293,7 +316,7 @@ phploc: prepare
 
 
 
-# target: phpdoc             - Create documentation for PHP.
+# target: phpdoc                  - Create documentation for PHP.
 .PHONY: phpdoc
 phpdoc:
 	@$(call HELPTEXT,$@)
@@ -301,7 +324,7 @@ phpdoc:
 
 
 
-# target: behat              - Run behat for feature tests.
+# target: behat                   - Run behat for feature tests.
 .PHONY: behat
 behat:
 	@$(call HELPTEXT,$@)
@@ -313,7 +336,7 @@ behat:
 # Bash
 #
 
-# target: install-tools-bash - Install Bash development tools.
+# target: install-tools-bash      - Install Bash development tools.
 .PHONY: install-tools-bash
 install-tools-bash:
 	@$(call HELPTEXT,$@)
@@ -330,7 +353,7 @@ install-tools-bash:
 
 
 
-# target: check-tools-bash   - Check versions of Bash tools.
+# target: check-tools-bash        - Check versions of Bash tools.
 .PHONY: check-tools-bash
 check-tools-bash:
 	@$(call HELPTEXT,$@)
@@ -339,7 +362,7 @@ check-tools-bash:
 
 
 
-# target: shellcheck         - Run shellcheck for bash files.
+# target: shellcheck              - Run shellcheck for bash files.
 .PHONY: shellcheck
 shellcheck:
 	@$(call HELPTEXT,$@)
@@ -347,7 +370,7 @@ shellcheck:
 
 
 
-# target: bats               - Run bats for unit testing bash files.
+# target: bats                    - Run bats for unit testing bash files.
 .PHONY: bats
 bats:
 	@$(call HELPTEXT,$@)
@@ -359,7 +382,7 @@ bats:
 #
 # Theme
 #
-# target: theme              - Do make build install in theme/ if available.
+# target: theme                   - Do make build install in theme/ if available.
 .PHONY: theme
 theme:
 	@$(call HELPTEXT,$@)
