@@ -59,9 +59,9 @@ class FormElementCheckbox extends FormElement
 
         return <<<EOD
 <p>
-<input id='$id'{$type}{$class}{$name}{$value}{$autofocus}{$required}{$readonly}{$checked}{$title} />
-<label for='$id'>$label</label>
-{$messages}
+    <input id='$id'{$type}{$class}{$name}{$value}{$autofocus}{$required}{$readonly}{$checked}{$title} />
+    <label for='$id'>$label</label>
+    {$messages}
 </p>
 <p class='cf-desc'>{$description}</p>
 EOD;

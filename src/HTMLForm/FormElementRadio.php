@@ -44,9 +44,9 @@ class FormElementRadio extends FormElement
 
             $ret .= <<<EOD
 <{$wrapperElement}{$wrapperClass}>
-<input id='$id'{$type}{$class}{$name}{$value}{$autofocus}{$readonly}{$checked}{$title} />
-<label for='$id'>$item</label>
-{$messages}
+    <input id='$id'{$type}{$class}{$name}{$value}{$autofocus}{$readonly}{$checked}{$title} />
+    <label for='$id'>$item</label>
+    {$messages}
 </{$wrapperElement}>
 EOD;
         }

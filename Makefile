@@ -15,7 +15,6 @@ OS = $(shell uname -s)
 ECHO = echo
 
 # Make adjustments based on OS
-# http://stackoverflow.com/questions/3466166/how-to-check-if-running-in-cygwin-mac-or-linux/27776822#27776822
 ifneq (, $(findstring CYGWIN, $(OS)))
 	ECHO = /bin/echo -e
 endif
@@ -27,20 +26,21 @@ OK_COLOR	= \033[32;01m
 ERROR_COLOR	= \033[31;01m
 WARN_COLOR	= \033[33;01m
 
+# Print out colored action message
+ACTION_MESSAGE = $(ECHO) "$(ACTION)---> $(1)$(NO_COLOR)"
+
 # Which makefile am I in?
 WHERE-AM-I = $(CURDIR)/$(word $(words $(MAKEFILE_LIST)),$(MAKEFILE_LIST))
 THIS_MAKEFILE := $(call WHERE-AM-I)
 
 # Echo some nice helptext based on the target comment
-HELPTEXT = $(ECHO) "$(ACTION)--->" `egrep "^\# target: $(1) " $(THIS_MAKEFILE) | sed "s/\# target: $(1)[ ]*-[ ]* / /g"` "$(NO_COLOR)"
+HELPTEXT = $(call ACTION_MESSAGE, $(shell egrep "^\# target: $(1) " $(THIS_MAKEFILE) | sed "s/\# target: $(1)[ ]*-[ ]* / /g"))
 
 # Check version  and path to command and display on one line
 CHECK_VERSION = printf "%-15s %-10s %s\n" "`basename $(1)`" "`$(1) --version $(2)`" "`which $(1)`"
 
-# Print out colored action message
-ACTION_MESSAGE = $(ECHO) "$(ACTION)---> $(1)$(NO_COLOR)"
-
-
+# Get current working directory, it may not exist as environment variable.
+PWD = $(shell pwd)
 
 # target: help                    - Displays help.
 .PHONY:  help
@@ -104,13 +104,13 @@ clean-cache:
 .PHONY:  clean-all
 clean-all: clean clean-cache
 	@$(call HELPTEXT,$@)
-	rm -rf .bin vendor
+	rm -rf .bin vendor composer.lock
 
 
 
 # target: check                   - Check version of installed tools.
 .PHONY:  check
-check: check-tools-bash check-tools-php
+check: check-tools-bash check-tools-php check-docker
 	@$(call HELPTEXT,$@)
 
 
@@ -164,19 +164,11 @@ tag-prepare:
 #
 # docker
 #
-# target: docker-start            - Start docker container="", default is "latest".
-.PHONY: docker-start
-docker-start:
-	@$(call HELPTEXT,$@)
-	[ ! -f docker-compose.yaml ] || docker-compose -f docker-compose.yaml up -d
-
-
-
-# target: docker-up               - Start all docker containers.
+# target: docker-up               - Start all docker container="", or specific, default "latest".
 .PHONY: docker-up
 docker-up:
 	@$(call HELPTEXT,$@)
-	[ ! -f docker-compose.yaml ] || docker-compose -f docker-compose.yaml up -d
+	[ ! -f docker-compose.yaml ] || docker-compose -f docker-compose.yaml up -d $(container)
 
 
 
@@ -228,6 +220,15 @@ docker-test:
 
 
 
+# target: check-docker            - Check versions of docker.
+.PHONY: check-docker
+check-docker:
+	@$(call HELPTEXT,$@)
+	@$(call CHECK_VERSION, docker, | cut -d" " -f3-)
+	@$(call CHECK_VERSION, docker-compose, | cut -d" " -f3-)
+
+
+
 # ------------------------------------------------------------------------
 #
 # PHP
@@ -250,8 +251,15 @@ install-tools-php:
 
 	curl -Lso $(BEHAT) https://github.com/Behat/Behat/releases/download/v3.3.0/behat.phar && chmod 755 $(BEHAT)
 
-	#curl -Lso $(PHPUNIT) https://phar.phpunit.de/phpunit-5.7.9.phar && chmod 755 $(PHPUNIT)
-	curl -Lso $(PHPUNIT) https://phar.phpunit.de/phpunit-7.phar && chmod 755 $(PHPUNIT)
+	# Get PHPUNIT depending on current PHP installation
+	curl -Lso $(PHPUNIT) https://phar.phpunit.de/phpunit-$(shell \
+	 	php -r "echo version_compare(PHP_VERSION, '7.0', '<') \
+			? '5' \
+			: (version_compare(PHP_VERSION, '7.1', '>=') \
+				? '7' \
+				: '6'\
+		);" \
+		).phar && chmod 755 $(PHPUNIT)
 
 	[ ! -f composer.json ] || composer install
 
@@ -262,13 +270,14 @@ install-tools-php:
 check-tools-php:
 	@$(call HELPTEXT,$@)
 	php --version && echo
-	which $(PHPUNIT) && $(PHPUNIT) --version
-	which $(PHPLOC) && $(PHPLOC) --version
-	which $(PHPCS) && $(PHPCS) --version && echo
-	which $(PHPMD) && $(PHPMD) --version && echo
-	which $(PHPCBF) && $(PHPCBF) --version && echo
-	which $(PHPDOC) && $(PHPDOC) --version && echo
-	which $(BEHAT) && $(BEHAT) --version && echo
+	composer show && echo
+	@$(call CHECK_VERSION, $(PHPUNIT))
+	@$(call CHECK_VERSION, $(PHPLOC))
+	@$(call CHECK_VERSION, $(PHPCS))
+	@$(call CHECK_VERSION, $(PHPMD))
+	@$(call CHECK_VERSION, $(PHPCBF))
+	@$(call CHECK_VERSION, $(PHPDOC))
+	@$(call CHECK_VERSION, $(BEHAT))
 
 
 

@@ -9,8 +9,9 @@ v1.1.0* (2018-02-26)
 * Add requirement >PHP7.0 in composer.json.
 * Update testclasses to support PHPUnit namespace.
 * Travis to test only on >PHP7.0.
-* CircleCI upgrade to version 2 and PHP7.2.
+* CircleCI upgrade to version 2 and PHP7.2 using own image.
 * Add PHP Warnings during phpunit.
+* Fix #8 deprecated each() in PHP7.2.
 
 
 v1.0.4 (2018-02-26)

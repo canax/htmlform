@@ -543,4 +543,16 @@ abstract class FormElement implements \ArrayAccess
     {
         return $this['checked'];
     }
+
+
+
+    /**
+     * Check if the element is a button.
+     *
+     * @return boolean true or false.
+     */
+    public function isButton()
+    {
+        return in_array($this["type"], ["submit", "reset", "button"]);
+    }
 }
