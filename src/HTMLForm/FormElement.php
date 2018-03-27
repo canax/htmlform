@@ -268,6 +268,10 @@ abstract class FormElement implements \ArrayAccess
             ? " onclick=\"{$this['onclick']}\""
             : null;
 
+        $maxlength = isset($this['maxlength'])
+            ? " maxlength='{$this['maxlength']}'"
+            : null;
+
         $messages = $this->getValidationMessages();
 
         return [
@@ -285,6 +289,7 @@ abstract class FormElement implements \ArrayAccess
             'multiple'       => $multiple,
             'min'            => $min,
             'max'            => $max,
+            'maxlength'      => $maxlength,
             'low'            => $low,
             'high'           => $high,
             'step'           => $step,
