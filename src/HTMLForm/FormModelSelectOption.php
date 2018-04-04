@@ -28,7 +28,7 @@ class FormModelSelectOption extends FormModel
                     "label" => "Expiration month:",
 
                     "options" => [
-                        //"default" => "Select credit card expiration month...",
+                        "default" => "Select credit card expiration month...",
                         "01" => "January",
                         "02" => "February",
                         "03" => "March",
@@ -42,7 +42,7 @@ class FormModelSelectOption extends FormModel
                         "11" => "November",
                         "12" => "December",
                     ],
-                    "checked" => "02",
+                    //"checked" => "02",
                 ],
 
                 "doPay" => [
