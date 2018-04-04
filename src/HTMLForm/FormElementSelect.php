@@ -45,7 +45,7 @@ class FormElementSelect extends FormElement
         foreach ($this['options'] as $optValue => $optText) {
             $options .= "<option value='{$optValue}'"
                 . (($this['value'] == $optValue)
-                    ? " selected"
+                    ? " selected=\"selected\""
                     : null)
                 . ">{$optText}</option>\n";
         }
