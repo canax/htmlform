@@ -21,7 +21,7 @@ class FormElementSelect extends FormElement
         parent::__construct($name, $attributes);
         $this['type'] = 'select';
         $this->UseNameAsDefaultLabel();
-        
+
         if (!is_array($this['options'])) {
             throw new Exception("Select needs options, did you forget to specify them when creating the element?");
         }
@@ -40,11 +40,11 @@ class FormElementSelect extends FormElement
     {
         $details = $this->getHTMLDetails();
         extract($details);
-        
+
         $options = null;
         foreach ($this['options'] as $optValue => $optText) {
             $options .= "<option value='{$optValue}'"
-                . (($this['value'] == $optValue)
+                . (($this['checked'] == $optValue)
                     ? " selected"
                     : null)
                 . ">{$optText}</option>\n";
