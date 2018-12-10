@@ -16,21 +16,21 @@ Anax htmlform
 
 
 
-Anax htmlform module.
+Anax htmlform module, to build html forms using classes, arrays and methods.
 
 
 
-Usage
+Dependency
 ------------------
 
-Short examples on how to use the module htmlform.
+This module has a tight relationship with Anax and is depending on the `$di` and services for `session`, `response`, `request` and `url`.
 
 
 
 License
 ------------------
 
-This software carries a MIT license.
+This software carries a MIT license. See [LICENSE.txt](LICENSE.txt) for details.
 
 
 

@@ -3,6 +3,14 @@ Revision history
 
 
 
+v2.0.0 (2018-12-10)
+---------------------------------
+
+* Add validators for Codeclimate and Codacy.
+* Integrated with Anax version 2 modules.
+
+
+
 v2.0.0-beta.1 (2018-12-10)
 ---------------------------------
 

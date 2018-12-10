@@ -1,8 +1,11 @@
 <?php
-include("../incl/config.php");
+
+namespace Anax\HTMLForm;
+ 
+require __DIR__ . "/../incl/config.php";
 
 $title = "Checkbox with multiple choices";
-$form = new \Anax\HTMLForm\FormModelCheckboxMultiple($di);
+$form = new FormModelCheckboxMultiple($di);
 $form->check();
 
-include("../incl/renderPage.php");
+require __DIR__ . "/../incl/renderPage.php";

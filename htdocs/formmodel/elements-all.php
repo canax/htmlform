@@ -1,8 +1,11 @@
 <?php
-include("../incl/config.php");
+
+namespace Anax\HTMLForm;
+ 
+require __DIR__ . "/../incl/config.php";
 
 $title = "Form elements HTML 4.01 and HTML5";
-$form = new \Anax\HTMLForm\FormModelElementsAll($di);
+$form = new FormModelElementsAll($di);
 $form->check();
 
-include("../incl/renderPage.php");
+require __DIR__ . "/../incl/renderPage.php";

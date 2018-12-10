@@ -1,8 +1,11 @@
 <?php
-include("../incl/config.php");
+
+namespace Anax\HTMLForm;
+ 
+require __DIR__ . "/../incl/config.php";
 
 $title = "Validate not empty";
-$form = new \Anax\HTMLForm\FormModelValidateNotEmpty($di);
+$form = new FormModelValidateNotEmpty($di);
 $form->check();
 
-include("../incl/renderPage.php");
+require __DIR__ . "/../incl/renderPage.php";

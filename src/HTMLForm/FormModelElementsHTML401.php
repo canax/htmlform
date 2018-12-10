@@ -2,7 +2,7 @@
 
 namespace Anax\HTMLForm;
 
-use Anax\DI\DIInterface;
+use Psr\Container\ContainerInterface;
 
 /**
  * Example of FormModel implementation.
@@ -14,7 +14,7 @@ class FormModelElementsHTML401 extends FormModel
      *
      * @param Anax\DI\DIInterface $di a service container
      */
-    public function __construct(DIInterface $di)
+    public function __construct(ContainerInterface $di)
     {
         parent::__construct($di);
         $this->form->create(

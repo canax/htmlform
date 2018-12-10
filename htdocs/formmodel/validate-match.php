@@ -1,8 +1,11 @@
 <?php
-include("../incl/config.php");
+
+namespace Anax\HTMLForm;
+ 
+require __DIR__ . "/../incl/config.php";
 
 $title = "Password matches, validate using 'match'";
-$form = new \Anax\HTMLForm\FormModelValidateMatch($di);
+$form = new FormModelValidateMatch($di);
 $form->check();
 
-include("../incl/renderPage.php");
+require __DIR__ . "/../incl/renderPage.php";

@@ -1,8 +1,11 @@
 <?php
-include("../incl/config.php");
+
+namespace Anax\HTMLForm;
+ 
+require __DIR__ . "/../incl/config.php";
 
 $title = "Using checkboxes";
-$form = new \Anax\HTMLForm\FormModelCheckbox($di);
-$form->check();
+$form = new FormModelCheckbox($di);
+$res = $form->check();
 
-include("../incl/renderPage.php");
+require __DIR__ . "/../incl/renderPage.php";

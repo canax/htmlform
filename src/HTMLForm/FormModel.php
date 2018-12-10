@@ -2,7 +2,7 @@
 
 namespace Anax\HTMLForm;
 
-use Anax\DI\DIInterface;
+use Psr\Container\ContainerInterface;
 
 /**
  * Base class for form model classes.
@@ -19,11 +19,11 @@ abstract class FormModel
 
 
     /**
-     * Constructor injects with DI container.
+     * Constructor injects with DI container and creates the form.
      *
-     * @param Anax\DI\DIInterface $di a service container
+     * @param Psr\Container\ContainerInterface $di a service container
      */
-    public function __construct(DIInterface $di)
+    public function __construct(ContainerInterface $di)
     {
         $this->di = $di;
         $this->form = new Form($di);
@@ -71,7 +71,7 @@ abstract class FormModel
      */
     public function callbackSuccess()
     {
-        $this->di->get("response")->redirectSelf();
+        $this->di->get("response")->redirectSelf()->send();
     }
 
 
@@ -84,6 +84,6 @@ abstract class FormModel
      */
     public function callbackFail()
     {
-        $this->di->get("response")->redirectSelf();
+        $this->di->get("response")->redirectSelf()->send();
     }
 }

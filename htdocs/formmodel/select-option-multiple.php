@@ -1,8 +1,11 @@
 <?php
-include("../incl/config.php");
+
+namespace Anax\HTMLForm;
+ 
+require __DIR__ . "/../incl/config.php";
 
 $title = "Select option with multiple choices";
-$form = new \Anax\HTMLForm\FormModelSelectOptionMultiple($di);
+$form = new FormModelSelectOptionMultiple($di);
 $form->check();
 
-include("../incl/renderPage.php");
+require __DIR__ . "/../incl/renderPage.php";

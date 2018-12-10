@@ -39,10 +39,8 @@ return [
             "shared" => true,
             "active" => true,
             "callback" => function () {
-                $session = new \Anax\Session\SessionConfigurable();
-                $session->configure([
-                    "name" => "anax/htmlform",
-                ]);
+                $session = new \Anax\Session\Session();
+                $session->name("anax/htmlform");
                 $session->start();
                 return $session;
             }

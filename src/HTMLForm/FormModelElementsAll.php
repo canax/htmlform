@@ -2,7 +2,7 @@
 
 namespace Anax\HTMLForm;
 
-use Anax\DI\DIInterface;
+use Psr\Container\ContainerInterface;
 
 /**
  * Example of FormModel implementation.
