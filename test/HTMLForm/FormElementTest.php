@@ -2,10 +2,12 @@
 
 namespace Anax\HTMLForm;
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * HTML Form elements.
  */
-class FormElementTestTest extends \PHPUnit\Framework\TestCase
+class FormElementTestTest extends TestCase
 {
 
     /**

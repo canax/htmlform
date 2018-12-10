@@ -2,10 +2,12 @@
 
 namespace Anax\HTMLForm;
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * HTML Form elements.
  */
-class FormElementCheckboxMultipleTest extends \PHPUnit\Framework\TestCase
+class FormElementCheckboxMultipleTest extends TestCase
 {
     /**
      * Test

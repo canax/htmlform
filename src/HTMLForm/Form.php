@@ -2,7 +2,7 @@
 
 namespace Anax\HTMLForm;
 
-use \Anax\DI\DIInterface;
+use Psr\Container\ContainerInterface;
 
 /**
  * A utility class to easy creating and handling of forms
@@ -37,7 +37,7 @@ class Form implements \ArrayAccess
      *
      * @param Anax\DI\DIInterface $di a service container
      */
-    public function __construct(DIInterface $di)
+    public function __construct(ContainerInterface $di)
     {
         $this->di = $di;
     }

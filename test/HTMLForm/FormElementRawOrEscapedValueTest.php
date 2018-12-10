@@ -2,19 +2,25 @@
 
 namespace Anax\HTMLForm;
 
-use \Anax\DI\DIFactoryConfig;
+use Anax\DI\DIFactoryConfig;
+use PHPUnit\Framework\TestCase;
 
 /**
  * HTML Form elements.
  */
-class FormElementRawOrEscapedValueTest extends \PHPUnit\Framework\TestCase
+class FormElementRawOrEscapedValueTest extends TestCase
 {
+    /** @var DIFactoryConfig Service container */
+    private $di;
+
+
     /**
      * Setup
      */
     public function setUp()
     {
         $this->di = new DIFactoryConfig(__DIR__ . "/../../htdocs/incl/di.php");
+        //$this->di->loadServices(ANAX_INSTALL_PATH . "/config/di");
     }
 
 
