@@ -229,7 +229,9 @@ abstract class FormElement implements \ArrayAccess
             : null;
 
         $text = isset($this['text'])
-            ? htmlentities($this['text'], ENT_QUOTES, $this->characterEncoding)
+            ? $this->default["escape-values"]
+                ? htmlentities($this['text'], ENT_QUOTES, $this->characterEncoding)
+                : $this['text']
             : null;
 
         $checked = isset($this['checked']) && $this['checked']
@@ -257,7 +259,9 @@ abstract class FormElement implements \ArrayAccess
             : null;
 
         $onlyValue = isset($this['value'])
-            ? htmlentities($this['value'], ENT_QUOTES, $this->characterEncoding)
+            ? $this->default["escape-values"]
+                ? htmlentities($this['value'], ENT_QUOTES, $this->characterEncoding)
+                : $this['value']
             : null;
 
         $value = isset($this['value'])
