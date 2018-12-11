@@ -74,4 +74,20 @@ class FormElementTestTest extends TestCase
         $res = $element->validate(['email']);
         $this->assertTrue($res, "Validation email fails.");
     }
+
+    public function testUnsafeValues()
+    {
+        $element = new FormElementTest('test');
+
+        $element->setDefault([
+            "escape-values" => true
+        ]);
+        $element->attributes["value"] = "anax&me";
+        $this->assertEquals(" value='anax&amp;me'", $element->getHTMLDetails()['value']);
+        $element->setDefault([
+            "escape-values" => false
+        ]);
+        $element->attributes["value"] = "anax&me";
+        $this->assertEquals(" value='anax&me'", $element->getHTMLDetails()['value']);
+    }
 }
