@@ -112,12 +112,15 @@ class Form implements \ArrayAccess
         $this->elements = [];
         if (!empty($elements)) {
             foreach ($elements as $key => $element) {
+                $overrides = $element['overrides'] ?? [];
+                unset($element['overrides']);
                 $this->elements[$key] = FormElementFactory::create($key, $element);
                 $this->elements[$key]->setDefault([
                     "wrapper-element" => $this->form["wrapper-element"],
                     "br-after-label"  => $this->form["br-after-label"],
                     "escape-values"   => $this->form["escape-values"],
                 ]);
+                $this->elements[$key]->setDefault($overrides);
             }
         }
 
